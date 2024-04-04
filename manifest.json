@@ -1,0 +1,34 @@
+{
+    "manifest_version": 4,
+    "type": "extension",
+    "name": "pURLfy",
+    "slug": "purlfy",
+    "description": "链接净化",
+    "version": "0.1.0",
+    "icon": "./icons/icon.svg",
+    "thumb": "./icons/thumb.svg",
+    "authors": [
+        {
+            "name": "PRO-2684",
+            "link": "https://github.com/PRO-2684"
+        }
+    ],
+    "repository": {
+        "repo": "PRO-2684/pURLfy",
+        "branch": "main",
+        "release": {
+            "tag": "v0.1.0",
+            "file": "pURLfy-release.zip"
+        }
+    },
+    "platform": [
+        "win32",
+        "linux",
+        "darwin"
+    ],
+    "injects": {
+        "renderer": "./renderer.js",
+        "main": "./main.js",
+        "preload": "./preload.js"
+    }
+}

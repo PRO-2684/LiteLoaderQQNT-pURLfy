@@ -1,0 +1,87 @@
+<style>
+    /* Logo */
+    .purlfy .logo {
+        position: fixed;
+        right: 20px;
+        top: 40px;
+        width: 4em;
+        height: 4em;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .purlfy setting-switch[is-disabled] {
+        cursor: not-allowed;
+    }
+</style>
+<img class="logo" src=""></img>
+<setting-section data-title="调试" class="dev">
+    <setting-panel>
+        <setting-list data-direction="column">
+            <setting-item data-direction="row">
+                <div>
+                    <setting-text>Debug 模式</setting-text>
+                    <setting-text data-type="secondary">在主进程输出详细的日志信息</setting-text>
+                </div>
+                <setting-switch id="purlfy-debug" is-disabled></setting-switch>
+            </setting-item>
+            <setting-item data-direction="row">
+                <div>
+                    <setting-text>重载规则</setting-text>
+                    <setting-text data-type="secondary">立即重载规则文件</setting-text>
+                </div>
+                <setting-button data-type="primary" id="purlfy-reload-rules">立即重载</setting-button>
+            </setting-item>
+            <setting-item data-direction="row">
+                <div>
+                    <setting-text>净化 - 输入</setting-text>
+                    <setting-text data-type="secondary">按下回车后立即净化输入的链接</setting-text>
+                </div>
+                <input class="q-input__inner" id="purlfy-clean-input" type="text" placeholder="https://example.com/?utm_source=qq"></input>
+            </setting-item>
+            <setting-item data-direction="row">
+                <div>
+                    <setting-text>净化 - 结果</setting-text>
+                    <setting-text data-type="secondary">这里会展示净化后的结果</setting-text>
+                </div>
+                <input readonly class="q-input__inner" id="purlfy-clean-url" type="text" placeholder="https://example.com/?utm_source=qq"></input>
+            </setting-item>
+            <setting-item data-direction="row">
+                <div>
+                    <setting-text>净化 - 匹配</setting-text>
+                    <setting-text data-type="secondary">这里会展示净化时匹配到的规则</setting-text>
+                </div>
+                <input readonly class="q-input__inner" id="purlfy-clean-rule" type="text" placeholder="https://example.com/?utm_source=qq"></input>
+            </setting-item>
+        </setting-list>
+    </setting-panel>
+</setting-section>
+<setting-section data-title="统计数据" class="statistics">
+    <setting-panel>
+        <setting-list data-direction="row">
+            <setting-item>
+                <div>
+                    <setting-text id="purlfy-statistics-url">NaN</setting-text>
+                    <setting-text data-type="secondary">条链接被净化</setting-text>
+                </div>
+            </setting-item>
+            <setting-item>
+                <div>
+                    <setting-text id="purlfy-statistics-param">NaN</setting-text>
+                    <setting-text data-type="secondary">个跟踪参数被移除</setting-text>
+                </div>
+            </setting-item>
+            <setting-item>
+                <div>
+                    <setting-text id="purlfy-statistics-char">NaN</setting-text>
+                    <setting-text data-type="secondary">个字符被删除</setting-text>
+                </div>
+            </setting-item>
+        </setting-list>
+    </setting-panel>
+</setting-section>

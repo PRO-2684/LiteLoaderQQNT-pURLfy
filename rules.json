@@ -1,0 +1,289 @@
+{
+    "music.apple.com": {
+        "": {
+            "description": "Apple Music",
+            "mode": 0,
+            "params": [],
+            "author": "mitian233"
+        }
+    },
+    "tieba.baidu.com": {
+        "": {
+            "description": "百度贴吧",
+            "mode": 0,
+            "params": [],
+            "author": "青墨"
+        }
+    },
+    "t.bilibili.com": {
+        "": {
+            "description": "哔哩哔哩动态分享",
+            "mode": 0,
+            "params": [],
+            "author": "青墨"
+        }
+    },
+    "mall.bilibili.com": {
+        "": {
+            "description": "会员购分享",
+            "mode": 0,
+            "params": [
+                "noTitleBar",
+                "itemsId"
+            ],
+            "author": "青墨"
+        }
+    },
+    "space.bilibili.com": {
+        "": {
+            "description": "个人界面分享",
+            "mode": 0,
+            "params": [],
+            "author": "青墨"
+        }
+    },
+    "www.bilibili.com": {
+        "": {
+            "description": "直播预约分享",
+            "mode": 1,
+            "params": [
+                "i_transfer_match"
+            ],
+            "author": "青墨"
+        }
+    },
+    "live.bilibili.com": {
+        "": {
+            "description": "哔哩哔哩直播间",
+            "mode": 0,
+            "params": [],
+            "author": "青墨"
+        }
+    },
+    "www.disneyplus.com": {
+        "": {
+            "description": "Disney+",
+            "mode": 0,
+            "params": [],
+            "author": "mitian233"
+        }
+    },
+    "www.dlsite.com": {
+        "": {
+            "description": "DLsite",
+            "mode": 0,
+            "params": [],
+            "author": "MateChan"
+        }
+    },
+    "www.douban.com": {
+        "": {
+            "description": "豆瓣",
+            "mode": 0,
+            "params": [],
+            "author": "ChellyL"
+        }
+    },
+    "www.right.com.cn": {
+        "": {
+            "description": "恩山无线论坛",
+            "mode": 1,
+            "params": [
+                "authorid",
+                "extra"
+            ],
+            "author": "ous50 "
+        }
+    },
+    "www.google.com": {
+        "": {
+            "description": "Google Search",
+            "mode": 0,
+            "params": [
+                "q"
+            ],
+            "author": "MateChan"
+        }
+    },
+    "www.netflix.com": {
+        "": {
+            "description": "Netflix",
+            "mode": 0,
+            "params": [],
+            "author": "mitian233"
+        }
+    },
+    "h5.qzone.qq.com": {
+        "ugc/share": {
+            "description": "h5 QQ 空间",
+            "mode": 0,
+            "params": [
+                "sharetag",
+                "appid"
+            ],
+            "author": "PRO-2684"
+        }
+    },
+    "qun.qq.com": {
+        "": {
+            "description": "QQ 频道",
+            "mode": 0,
+            "params": [
+                "inviteCode"
+            ],
+            "author": "青墨"
+        }
+    },
+    "static-play.kg.qq.com": {
+        "": {
+            "description": "全民k歌",
+            "mode": 0,
+            "params": [
+                "s"
+            ],
+            "author": "青墨"
+        }
+    },
+    "www.reddit.com": {
+        "": {
+            "description": "Reddit",
+            "mode": 0,
+            "params": [],
+            "author": "Dreista"
+        }
+    },
+    "open.spotify.com": {
+        "": {
+            "description": "Spotify",
+            "mode": 0,
+            "params": [],
+            "author": "lz233"
+        }
+    },
+    "m.tb.cn": {
+        "": {
+            "description": "淘宝/闲鱼",
+            "mode": 0,
+            "params": [],
+            "author": "lz233"
+        }
+    },
+    "m.v.qq.com": {
+        "": {
+            "description": "腾讯视频",
+            "mode": 0,
+            "params": [
+                "vid"
+            ],
+            "author": "returnL、青墨"
+        }
+    },
+    "y.music.163.com": {
+        "": {
+            "description": "网易云音乐",
+            "mode": 0,
+            "params": [
+                "id"
+            ],
+            "author": "lz233"
+        }
+    },
+    "weread.qq.com": {
+        "": {
+            "description": "微信读书",
+            "mode": 0,
+            "params": [
+                "v"
+            ],
+            "author": "lz233"
+        }
+    },
+    "mp.weixin.qq.com": {
+        "": {
+            "description": "微信公众号文章",
+            "mode": 0,
+            "params": [
+                "__biz",
+                "mid",
+                "idx",
+                "sn"
+            ],
+            "author": "PRO-2684"
+        }
+    },
+    "k.youshop10.com": {
+        "": {
+            "description": "微店",
+            "mode": 0,
+            "params": [],
+            "author": "kirito"
+        }
+    },
+    "www.xiaohongshu.com": {
+        "": {
+            "description": "小红书",
+            "mode": 0,
+            "params": [],
+            "author": "RtYkk"
+        }
+    },
+    "www.youtube.com": {
+        "": {
+            "description": "YouTube一般链接",
+            "mode": 0,
+            "params": [
+                "v"
+            ],
+            "author": "Mosney"
+        }
+    },
+    "youtu.be": {
+        "": {
+            "description": "YouTube分享短链",
+            "mode": 0,
+            "params": [],
+            "author": "Monsey "
+        }
+    },
+    "www.zhihu.com": {
+        "": {
+            "description": "知乎",
+            "mode": 0,
+            "params": [],
+            "author": "lz233"
+        }
+    },
+    "zhuanlan.zhihu.com": {
+        "": {
+            "description": "知乎文章",
+            "mode": 0,
+            "params": [],
+            "author": "TCOTC"
+        }
+    },
+    "plat-miniapp.zuoyebang.com": {
+        "": {
+            "description": "作业帮",
+            "mode": 0,
+            "params": [
+                "cuid",
+                "ishit"
+            ],
+            "author": "omg-xtao"
+        }
+    },
+    "": {
+        "": {
+            "description": "Fallback",
+            "mode": 1,
+            "params": [
+                "utm_source",
+                "utm_medium",
+                "utm_campaign",
+                "utm_term",
+                "utm_content"
+            ],
+            "author": "PRO-2684"
+        }
+    }
+}
