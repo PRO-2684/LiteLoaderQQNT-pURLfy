@@ -2,6 +2,8 @@
 
 # pURLfy
 
+> 🧹 pURLfy, 取自 "purify" 和 "URL" 的结合，意为净化 URL 链接。
+
 [LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于净化 QQNT 中的 URL 链接。
 
 ## 🪄 具体功能
@@ -42,4 +44,4 @@ plugins (所有的插件目录)
 
 ## 💻 调试
 
-Debug 模式：若您想要调试**此插件本身**，可以使用 `--transitio-debug` 参数启动 QQNT，此时插件会在控制台输出调试信息。
+Debug 模式：若您想要调试**此插件本身**，可以使用 `--purlfy-debug` 参数启动 QQNT，此时插件会在控制台输出调试信息。

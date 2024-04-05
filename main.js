@@ -3,11 +3,12 @@ const path = require("path");
 const { BrowserWindow, ipcMain, webContents, shell, app } = require("electron");
 let rules = {};
 let settingWindow = null;
+let tempDisable = false;
 
 const slug = "purlfy";
 const name = LiteLoader.plugins[slug].manifest.name;
 const isDebug = process.argv.includes(`--${slug}-debug`);
-const log = isDebug ? console.log.bind(console, "\x1b[36m%s\x1b[0m", `[${name}]`) : () => { };
+const log = isDebug ? console.log.bind(console, "\x1b[38;2;220;20;60m%s\x1b[0m", `[${name}]`) : () => { };
 
 const pluginPath = LiteLoader.plugins[slug].path.plugin;
 const rulesPath = path.join(pluginPath, "rules.json");
@@ -49,7 +50,7 @@ function purifyURL(url) {
     const host = urlObj.host ?? "";
     const pathname = removeSlashes(urlObj.pathname) ?? "";
     const rule = rules[host]?.[pathname] ?? rules[host]?.[""] ?? rules[""]?.[""];
-    log(`Matching rule for ${url}:`, rule);
+    log(`Matching rule for ${url}:`, rule.description, "by", rule.author);
     if (!rule) { // No matching rule found
         return url;
     }
@@ -89,6 +90,13 @@ function purifyURL(url) {
     }
     const newURL = urlObj.toString();
     const paramsCntAfter = urlObj.searchParams.size;
+    if (newURL === url) { // No changes made
+        log("No changes made to URL:", url);
+        return {
+            url: url,
+            rule: ""
+        };
+    }
     log(`Purified URL:`, newURL);
     statistics.url++;
     statistics.param += paramsCntBefore - paramsCntAfter;
@@ -96,13 +104,21 @@ function purifyURL(url) {
     notifyStatisticsChange();
     return {
         url: newURL,
-        rule: rule
+        rule: `${rule.description} by ${rule.author}`
     };
 }
 
 function notifyStatisticsChange() {
     if (settingWindow) {
+        log("Notify statistics change");
         settingWindow.webContents.send("LiteLoader.purlfy.statisticsChange", statistics);
+    }
+}
+
+function notifyTempDisableChange() {
+    if (settingWindow) {
+        log("Notify temp disable change:", tempDisable);
+        settingWindow.webContents.send("LiteLoader.purlfy.tempDisableChange", tempDisable);
     }
 }
 
@@ -113,14 +129,25 @@ loadRules();
 ipcMain.on("LiteLoader.purlfy.reloadRules", () => {
     loadRules();
 });
-ipcMain.handle("LiteLoader.purlfy.getStatistics", (event) => {
+ipcMain.on("LiteLoader.purlfy.setTempDisable", (event, value) => {
+    log("setTempDisable:", value);
+    if (tempDisable === value) {
+        return;
+    }
+    tempDisable = value;
+    notifyTempDisableChange();
+});
+ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
     settingWindow = BrowserWindow.fromWebContents(event.sender);
-    log("Setting window created");
+    log(`Setting window created: #${settingWindow.id}`);
     settingWindow.on("closed", () => {
-        log("Setting window closed");
+        log(`Setting window closed: #${settingWindow.id}`);
         settingWindow = null;
     });
-    return statistics;
+    return {
+        statistics: statistics,
+        tempDisable: tempDisable
+    };
 });
 ipcMain.handle("LiteLoader.purlfy.queryIsDebug", () => {
     return isDebug;
@@ -132,7 +159,7 @@ ipcMain.handle("LiteLoader.purlfy.purify", (event, url) => {
 // Hooks
 const originalOpen = shell.openExternal;
 shell.openExternal = function (url, options) {
-    return originalOpen(purifyURL(url).url, options);
+    return originalOpen(tempDisable ? url : purifyURL(url).url, options);
 };
 
 // Cleanup

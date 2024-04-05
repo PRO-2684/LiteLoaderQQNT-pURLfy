@@ -18,9 +18,55 @@
     .purlfy setting-switch[is-disabled] {
         cursor: not-allowed;
     }
+
+    .purlfy setting-item.is-loading {
+        cursor: progress;
+
+        > setting-switch,
+        > input,
+        > setting-button {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    }
 </style>
 <img class="logo" src=""></img>
-<setting-section data-title="调试" class="dev">
+<setting-section data-title="设置">
+    <setting-panel>
+        <setting-list data-direction="row">
+            <setting-item>
+                <div>
+                    <setting-text id="purlfy-statistics-url">NaN</setting-text>
+                    <setting-text data-type="secondary">条链接被净化</setting-text>
+                </div>
+            </setting-item>
+            <setting-item>
+                <div>
+                    <setting-text id="purlfy-statistics-param">NaN</setting-text>
+                    <setting-text data-type="secondary">个跟踪参数被移除</setting-text>
+                </div>
+            </setting-item>
+            <setting-item>
+                <div>
+                    <setting-text id="purlfy-statistics-char">NaN</setting-text>
+                    <setting-text data-type="secondary">个字符被删除</setting-text>
+                </div>
+            </setting-item>
+        </setting-list>
+    </setting-panel>
+    <setting-panel>
+        <setting-list data-direction="column">
+            <setting-item data-direction="row">
+                <div>
+                    <setting-text>临时禁用</setting-text>
+                    <setting-text data-type="secondary">临时禁用此插件的功能</setting-text>
+                </div>
+                <setting-switch id="purlfy-temp-disable"></setting-switch>
+            </setting-item>
+        </setting-list>
+    </setting-panel>
+</setting-section>
+<setting-section data-title="调试">
     <setting-panel>
         <setting-list data-direction="column">
             <setting-item data-direction="row">
@@ -47,40 +93,16 @@
             <setting-item data-direction="row">
                 <div>
                     <setting-text>净化 - 结果</setting-text>
-                    <setting-text data-type="secondary">这里会展示净化后的结果</setting-text>
+                    <setting-text data-type="secondary">净化后的 URL</setting-text>
                 </div>
-                <input readonly class="q-input__inner" id="purlfy-clean-url" type="text" placeholder="https://example.com/?utm_source=qq"></input>
+                <input readonly class="q-input__inner" id="purlfy-clean-url" type="text" placeholder="https://example.com/"></input>
             </setting-item>
             <setting-item data-direction="row">
                 <div>
                     <setting-text>净化 - 匹配</setting-text>
-                    <setting-text data-type="secondary">这里会展示净化时匹配到的规则</setting-text>
+                    <setting-text data-type="secondary">净化时匹配到的规则名与作者</setting-text>
                 </div>
-                <input readonly class="q-input__inner" id="purlfy-clean-rule" type="text" placeholder="https://example.com/?utm_source=qq"></input>
-            </setting-item>
-        </setting-list>
-    </setting-panel>
-</setting-section>
-<setting-section data-title="统计数据" class="statistics">
-    <setting-panel>
-        <setting-list data-direction="row">
-            <setting-item>
-                <div>
-                    <setting-text id="purlfy-statistics-url">NaN</setting-text>
-                    <setting-text data-type="secondary">条链接被净化</setting-text>
-                </div>
-            </setting-item>
-            <setting-item>
-                <div>
-                    <setting-text id="purlfy-statistics-param">NaN</setting-text>
-                    <setting-text data-type="secondary">个跟踪参数被移除</setting-text>
-                </div>
-            </setting-item>
-            <setting-item>
-                <div>
-                    <setting-text id="purlfy-statistics-char">NaN</setting-text>
-                    <setting-text data-type="secondary">个字符被删除</setting-text>
-                </div>
+                <input readonly class="q-input__inner" id="purlfy-clean-rule" type="text" placeholder="Fallback"></input>
             </setting-item>
         </setting-list>
     </setting-panel>

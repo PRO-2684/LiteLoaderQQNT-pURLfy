@@ -5,11 +5,19 @@ contextBridge.exposeInMainWorld("purlfy", {
         "LiteLoader.purlfy.statisticsChange",
         callback
     ),
+    onTempDisableChange: (callback) => ipcRenderer.on(
+        "LiteLoader.purlfy.tempDisableChange",
+        callback
+    ),
     reloadRules: () => ipcRenderer.send(
         "LiteLoader.purlfy.reloadRules"
     ),
-    getStatistics: () => ipcRenderer.invoke(
-        "LiteLoader.purlfy.getStatistics"
+    setTempDisable: (tempDisable) => ipcRenderer.send(
+        "LiteLoader.purlfy.setTempDisable",
+        tempDisable
+    ),
+    getInfo: () => ipcRenderer.invoke(
+        "LiteLoader.purlfy.getInfo"
     ),
     queryIsDebug: () => ipcRenderer.invoke(
         "LiteLoader.purlfy.queryIsDebug"
@@ -17,5 +25,5 @@ contextBridge.exposeInMainWorld("purlfy", {
     purify: (url) => ipcRenderer.invoke(
         "LiteLoader.purlfy.purify",
         url
-    ),
+    )
 });

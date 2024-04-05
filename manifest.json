@@ -3,7 +3,7 @@
     "type": "extension",
     "name": "pURLfy",
     "slug": "purlfy",
-    "description": "链接净化",
+    "description": "🧹 链接净化",
     "version": "0.1.0",
     "icon": "./icons/icon.svg",
     "thumb": "./icons/thumb.svg",
