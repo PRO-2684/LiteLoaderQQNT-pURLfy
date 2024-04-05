@@ -74,7 +74,7 @@
                     <setting-text>Debug 模式</setting-text>
                     <setting-text data-type="secondary">在主进程输出详细的日志信息</setting-text>
                 </div>
-                <setting-switch id="purlfy-debug" is-disabled></setting-switch>
+                <setting-text id="purlfy-debug" title="使用命令行参数 --purlfy-debug 启动 QQ 来启用">未启用</setting-text>
             </setting-item>
             <setting-item data-direction="row">
                 <div>
@@ -88,21 +88,21 @@
                     <setting-text>净化 - 输入</setting-text>
                     <setting-text data-type="secondary">按下回车后立即净化输入的链接</setting-text>
                 </div>
-                <input class="q-input__inner" id="purlfy-clean-input" type="text" placeholder="https://example.com/?utm_source=qq"></input>
+                <input id="purlfy-clean-input" type="text" placeholder="https://example.com/?utm_source=qq"></input>
             </setting-item>
             <setting-item data-direction="row">
                 <div>
                     <setting-text>净化 - 结果</setting-text>
                     <setting-text data-type="secondary">净化后的 URL</setting-text>
                 </div>
-                <input readonly class="q-input__inner" id="purlfy-clean-url" type="text" placeholder="https://example.com/"></input>
+                <input readonly id="purlfy-clean-url" type="text" placeholder="https://example.com/"></input>
             </setting-item>
             <setting-item data-direction="row">
                 <div>
                     <setting-text>净化 - 匹配</setting-text>
                     <setting-text data-type="secondary">净化时匹配到的规则名与作者</setting-text>
                 </div>
-                <input readonly class="q-input__inner" id="purlfy-clean-rule" type="text" placeholder="Fallback"></input>
+                <input readonly id="purlfy-clean-rule" type="text" placeholder="Fallback"></input>
             </setting-item>
         </setting-list>
     </setting-panel>

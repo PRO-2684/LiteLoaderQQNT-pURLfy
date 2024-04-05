@@ -19,9 +19,9 @@ contextBridge.exposeInMainWorld("purlfy", {
     getInfo: () => ipcRenderer.invoke(
         "LiteLoader.purlfy.getInfo"
     ),
-    queryIsDebug: () => ipcRenderer.invoke(
-        "LiteLoader.purlfy.queryIsDebug"
-    ),
+    // queryIsDebug: () => ipcRenderer.invoke(
+    //     "LiteLoader.purlfy.queryIsDebug"
+    // ),
     purify: (url) => ipcRenderer.invoke(
         "LiteLoader.purlfy.purify",
         url

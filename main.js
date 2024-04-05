@@ -146,11 +146,9 @@ ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
     });
     return {
         statistics: statistics,
-        tempDisable: tempDisable
+        tempDisable: tempDisable,
+        isDebug: isDebug
     };
-});
-ipcMain.handle("LiteLoader.purlfy.queryIsDebug", () => {
-    return isDebug;
 });
 ipcMain.handle("LiteLoader.purlfy.purify", (event, url) => {
     return purifyURL(url);

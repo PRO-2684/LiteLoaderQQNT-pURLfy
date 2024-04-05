@@ -6,11 +6,6 @@ async function onSettingWindowCreated(view) {
     view.innerHTML = await (await fetch(`local:///${pluginPath}/settings.html`)).text();
     const logo = $(".logo");
     logo.src = `local:///${pluginPath}/icons/icon.svg`;
-    purlfy.queryIsDebug().then(isDebug => {
-        if (isDebug) {
-            $("#purlfy-debug").toggleAttribute("is-active", isDebug);
-        }
-    });
     const input = $("#purlfy-clean-input");
     input.addEventListener("keyup", async (event) => {
         if (event.key === "Enter") {
@@ -61,6 +56,11 @@ async function onSettingWindowCreated(view) {
     const info = await purlfy.getInfo();
     updateStatistics(info.statistics);
     updateTempDisable(info.tempDisable);
+    if (info.isDebug) {
+        const debugText = $("#purlfy-debug");
+        debugText.removeAttribute("title");
+        debugText.textContent = "已启用";
+    }
 }
 
 export {
