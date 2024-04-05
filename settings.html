@@ -12,6 +12,7 @@
 
         &:hover {
             opacity: 1;
+            animation: 1s press 0.2s;
         }
     }
 
@@ -28,6 +29,13 @@
             pointer-events: none;
             opacity: 0.6;
         }
+    }
+
+    /* Animation */
+    @keyframes press {
+        0% { transform: scale(1); }
+        70% { transform: scale(0.9); }
+        100% { transform: scale(1); }
     }
 </style>
 <img class="logo" src=""></img>
