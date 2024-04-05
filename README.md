@@ -9,9 +9,12 @@
 ## 🪄 具体功能
 
 - 自动净化将要在浏览器打开的 URL 链接 (`shell.openExternal`)
+- 统计数据：净化的链接数量、净化的参数数量、净化的字符数量
+    - \* 仅在程序正常退出时才会保存数据
 
 ## 🖼️ 截图
 
+![settings](./attachments/settings.jpg)
 
 ## 📥 安装
 
