@@ -103,7 +103,7 @@ function purifyURL(url) { // Purify the given URL based on `rules`
     const mode = rule.mode;
     const paramsCntBefore = urlObj.searchParams.size
     switch (mode) {
-        case 0: { // Whitelist mode
+        case "white": { // Whitelist mode
             const newParams = new URLSearchParams();
             for (const param of rule.params) {
                 if (urlObj.searchParams.has(param)) {
@@ -113,17 +113,17 @@ function purifyURL(url) { // Purify the given URL based on `rules`
             urlObj.search = newParams.toString();
             break;
         }
-        case 1: { // Blacklist mode
+        case "black": { // Blacklist mode
             for (const param of rule.params) {
                 urlObj.searchParams.delete(param);
             }
             break;
         }
-        case 2: { // Regex mode
+        case "regex": { // Regex mode
             log("Regex mode not implemented yet");
             break;
         }
-        case 3: { // Decode mode
+        case "param": { // Specific param mode
             // Decode given parameter to be used as a new URL
             const param = urlObj.searchParams.get(rule.param);
             if (!param) {

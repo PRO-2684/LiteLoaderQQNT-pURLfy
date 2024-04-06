@@ -46,36 +46,40 @@ plugins (所有的插件目录)
 
 打开插件后自动生效。
 
-## 📃 规则
+## 📃 规则文件
 
 > 部分规则来源于 [Tarnhelm](https://tarnhelm.project.ac.cn/rules.html)。
 
-规则文件 `rules.json` 的格式如下:
+规则文件 [`rules.json`](./rules.json) 的格式如下:
 
 ```jsonc
 {
     "<domain>": {
         "<path>": {
+            // 一条具体的规则
             "description": "<规则描述>",
             "mode": <模式>,
-            "params": ["<param 1>", "<param 2>", ...], // 仅在白名单和黑名单模式下有效 (mode = 0/1)
-            "param": "<param 3>", // 仅在取特定参数模式下有效 (mode = 3)
-            "decode": ["<decode_func 1>", "<decode_func 2>"], // 仅在取特定参数模式下有效 (mode = 3)
+            "params": ["<param 1>", "<param 2>", ...], // 可选
+            "param": "<param 3>", // 可选
+            "decode": ["<decode_func 1>", "<decode_func 2>"], // 可选
             "author": "<作者>"
         }
     }
 }
 ```
 
-- `<domain>`, `<path>`: 域名和路径，例如 `example.com/`, `path/to/page` (去除前面的 `/`)
-    - 若为 `""`，则表示作为 **FallBack** 规则：当此层级没有匹配到其他规则时使用此规则
-    - 若不以 `/` 结尾，表示其值就是一个规则
-    - 若以 `/` 结尾，表示其下有更多子路径 (可以多级嵌套)
-- `<模式>`: 规则模式，`0` 为 [白名单](#白名单模式)，`1` 为 [黑名单](#黑名单模式)，~~`2` 为 [正则表达式](#正则表达式)，~~`3` 为 [取特定参数](#取特定参数)
-- `<param n>`: 参数名
-- `<decode_func n>`: 解码函数，按序调用。详见 [取特定参数](#取特定参数)。
+- `<domain>`, `<path>`: 域名和路径，匹配规则见 [路径匹配](#路径匹配)
+- 具体规则的字段见 [规则](#规则)
 
 ### 路径匹配
+
+`<domain>`, `<path>`: 域名和路径，例如 `example.com/`, `path/to/page` (去除开头的 `/`)
+
+- 若为 `""`，则表示作为 **FallBack** 规则：当此层级没有匹配到其他规则时使用此规则
+- 若不以 `/` 结尾，表示其值就是一个 [规则](#规则)
+- 若以 `/` 结尾，表示其下有更多子路径 (理论上可以无限嵌套)
+- 当有多个规则匹配时，会使用 **最长匹配** 的规则
+- 行为可以与 Unix 文件系统路径类比
 
 一个简单的例子，规则描述内给出了可以匹配的网址:
 
@@ -83,51 +87,27 @@ plugins (所有的插件目录)
 {
     "example.com/": {
         "a/b/c": {
-            "description": "example.com/a/b/c",
-            "mode": 0,
-            "params": [],
-            "author": "PRO-2684"
+            // 这里的规则会匹配 "example.com/a/b/c"
         },
         "path/": {
             "to/": {
                 "page": {
-                    "description": "example.com/path/to/page",
-                    "mode": 0,
-                    "params": [],
-                    "author": "PRO-2684"
+                    // 这里的规则会匹配 "example.com/path/to/page"
                 },
                 "": {
-                    "description": "example.com/path/to",
-                    "mode": 0,
-                    "params": [],
-                    "author": "PRO-2684"
+                    // 这里的规则会匹配 "example.com/path/to" 除 "page" 以外的所有子路径
                 }
             }
         },
         "": {
-            "description": "example.com/*",
-            "mode": 0,
-            "params": [],
-            "author": "PRO-2684"
+            // 这里的规则会匹配 "example.com" 除 "path" 以外的所有子路径
         }
     },
     "example.org": {
-        "description": "example.org/*",
-        "mode": 0,
-        "params": [],
-        "author": "PRO-2684"
+        // 这里的规则会匹配 "example.org" 的所有路径
     },
     "": {
-        "description": "Fallback",
-        "mode": 0,
-        "params": [
-            "utm_source",
-            "utm_medium",
-            "utm_campaign",
-            "utm_term",
-            "utm_content"
-        ],
-        "author": "PRO-2684"
+        // Fallback: 所有未匹配到的路径都会使用这里的规则
     }
 }
 ```
@@ -138,26 +118,39 @@ plugins (所有的插件目录)
 {
     "example.com/": {
         "path/to/page/": { // 以 `/` 结尾的会被认为下面有子路径，正确写法是把 `path/to/page/` 改为 `path/to/page`
-            "description": "example.com/path/to/page",
-            "mode": 0,
-            "params": [],
-            "author": "PRO-2684"
+            // 尝试匹配 "example.com/path/to/page" 的规则
         }
     },
-    "example.org": { // 不以 `/` 结尾的会被认为是一个规则，正确写法是把 `example.org` 改为 `example.org/`
+    "example.org": { // 不以 `/` 结尾的会被认为是一条规则，正确写法是把 `example.org` 改为 `example.org/`
         "path/to/page": {
-            "description": "example.com/path/to/page",
-            "mode": 0,
-            "params": [],
-            "author": "PRO-2684"
+            // 尝试匹配 "example.org/path/to/page" 的规则
         }
     }
 }
 ```
 
+### 规则
+
+不以 `/` 结尾的路径的值就是一条规则。规则有多种模式，具体定义如下:
+
+```jsonc
+{
+    "description": "<规则描述>",
+    "mode": "<模式>",
+    "params": ["<param 1>", "<param 2>", ...], // 仅在 `white`/`black` 模式下有效 (mode = 0/1)
+    "param": "<param 3>", // 仅在 `param` 模式下有效 (mode = 3)
+    "decode": ["<decode_func 1>", "<decode_func 2>"], // 仅在 `param` 模式下有效 (mode = 3)
+    "author": "<作者>"
+}
+```
+
+- `<模式>`: 规则使用的模式，`white` 为 [白名单](#白名单模式)，`black` 为 [黑名单](#黑名单模式)，~~`regex` 为 [正则表达式](#正则表达式)，~~`param` 为 [取特定参数](#取特定参数)
+- `<param n>`: 参数名
+- `<decode_func n>`: 取特定参数模式下用到的解码函数，按序调用。详见 [取特定参数](#取特定参数)。
+
 ### 白名单模式
 
-白名单模式下，只有在 `params` 中指定的参数才会被保留，原网址中的其余参数会被删除。
+白名单模式下，只有在 `params` 中指定的参数才会被保留，原网址中的其余参数会被删除。通常来说这是最常用的模式。
 
 ### 黑名单模式
 

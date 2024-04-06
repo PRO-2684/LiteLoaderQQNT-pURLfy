@@ -1,25 +1,25 @@
 {
     "music.apple.com": {
         "description": "Apple Music",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "mitian233"
     },
     "tieba.baidu.com": {
         "description": "百度贴吧",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "青墨"
     },
     "t.bilibili.com": {
         "description": "哔哩哔哩动态分享",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "青墨"
     },
     "mall.bilibili.com": {
         "description": "会员购分享",
-        "mode": 0,
+        "mode": "white",
         "params": [
             "noTitleBar",
             "itemsId"
@@ -28,13 +28,13 @@
     },
     "space.bilibili.com": {
         "description": "个人界面分享",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "青墨"
     },
     "www.bilibili.com": {
         "description": "直播预约分享",
-        "mode": 1,
+        "mode": "black",
         "params": [
             "i_transfer_match"
         ],
@@ -42,31 +42,31 @@
     },
     "live.bilibili.com": {
         "description": "哔哩哔哩直播间",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "青墨"
     },
     "www.disneyplus.com": {
         "description": "Disney+",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "mitian233"
     },
     "www.dlsite.com": {
         "description": "DLsite",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "MateChan"
     },
     "www.douban.com": {
         "description": "豆瓣",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "ChellyL"
     },
     "www.right.com.cn": {
         "description": "恩山无线论坛",
-        "mode": 1,
+        "mode": "black",
         "params": [
             "authorid",
             "extra"
@@ -75,7 +75,7 @@
     },
     "www.google.com": {
         "description": "Google Search",
-        "mode": 0,
+        "mode": "white",
         "params": [
             "q"
         ],
@@ -83,14 +83,14 @@
     },
     "www.netflix.com": {
         "description": "Netflix",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "mitian233"
     },
     "h5.qzone.qq.com/": {
         "ugc/share": {
             "description": "h5 QQ 空间",
-            "mode": 0,
+            "mode": "white",
             "params": [
                 "sharetag",
                 "appid"
@@ -100,7 +100,7 @@
     },
     "qun.qq.com": {
         "description": "QQ 频道",
-        "mode": 0,
+        "mode": "white",
         "params": [
             "inviteCode"
         ],
@@ -108,7 +108,7 @@
     },
     "static-play.kg.qq.com": {
         "description": "全民k歌",
-        "mode": 0,
+        "mode": "white",
         "params": [
             "s"
         ],
@@ -116,25 +116,25 @@
     },
     "www.reddit.com": {
         "description": "Reddit",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "Dreista"
     },
     "open.spotify.com": {
         "description": "Spotify",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "lz233"
     },
     "m.tb.cn": {
         "description": "淘宝/闲鱼",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "lz233"
     },
     "m.v.qq.com": {
         "description": "腾讯视频",
-        "mode": 0,
+        "mode": "white",
         "params": [
             "vid"
         ],
@@ -142,7 +142,7 @@
     },
     "y.music.163.com": {
         "description": "网易云音乐",
-        "mode": 0,
+        "mode": "white",
         "params": [
             "id"
         ],
@@ -150,7 +150,7 @@
     },
     "weread.qq.com": {
         "description": "微信读书",
-        "mode": 0,
+        "mode": "white",
         "params": [
             "v"
         ],
@@ -158,7 +158,7 @@
     },
     "mp.weixin.qq.com": {
         "description": "微信公众号文章",
-        "mode": 0,
+        "mode": "white",
         "params": [
             "__biz",
             "mid",
@@ -169,19 +169,19 @@
     },
     "k.youshop10.com": {
         "description": "微店",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "kirito"
     },
     "www.xiaohongshu.com": {
         "description": "小红书",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "RtYkk"
     },
     "www.youtube.com": {
         "description": "YouTube一般链接",
-        "mode": 0,
+        "mode": "white",
         "params": [
             "v"
         ],
@@ -189,25 +189,25 @@
     },
     "youtu.be": {
         "description": "YouTube分享短链",
-        "mode": 0,
+        "mode": "white",
         "params": [],
-        "author": "Monsey "
+        "author": "Monsey"
     },
     "www.zhihu.com": {
         "description": "知乎",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "lz233"
     },
     "zhuanlan.zhihu.com": {
         "description": "知乎文章",
-        "mode": 0,
+        "mode": "white",
         "params": [],
         "author": "TCOTC"
     },
     "plat-miniapp.zuoyebang.com": {
         "description": "作业帮",
-        "mode": 0,
+        "mode": "white",
         "params": [
             "cuid",
             "ishit"
@@ -217,7 +217,7 @@
     "links.jianshu.com/": {
         "go": {
             "description": "简书外链",
-            "mode": 3,
+            "mode": "param",
             "param": "to",
             "decode": ["url"],
             "author": "PRO-2684"
@@ -225,7 +225,7 @@
     },
     "link.juejin.cn" : {
         "description": "掘金外链",
-        "mode": 3,
+        "mode": "param",
         "param": "target",
         "decode": ["url"],
         "author": "PRO-2684"
@@ -233,7 +233,7 @@
     "gitee.com/": {
         "link": {
             "description": "Gitee 外链",
-            "mode": 3,
+            "mode": "param",
             "param": "target",
             "decode": ["url"],
             "author": "PRO-2684"
@@ -241,7 +241,7 @@
     },
     "link.zhihu.com": {
         "description": "知乎外链",
-        "mode": 3,
+        "mode": "param",
         "param": "target",
         "decode": ["url"],
         "author": "PRO-2684"
@@ -249,7 +249,7 @@
     "security.feishu.cn/": {
         "link/safety": {
             "description": "飞书外链",
-            "mode": 3,
+            "mode": "param",
             "param": "target",
             "decode": ["url"],
             "author": "PRO-2684"
@@ -258,7 +258,7 @@
     "leetcode.cn/": {
         "link": {
             "description": "LeetCode 外链",
-            "mode": 3,
+            "mode": "param",
             "param": "target",
             "decode": [],
             "author": "PRO-2684"
@@ -267,7 +267,7 @@
     "weibo.cn/": {
         "sinaurl": {
             "description": "微博外链",
-            "mode": 3,
+            "mode": "param",
             "param": "u",
             "decode": ["url"],
             "author": "PRO-2684"
@@ -276,7 +276,7 @@
     "www.mcbbs.net/": {
         "plugin.php": {
             "description": "MCBBS 外链",
-            "mode": 3,
+            "mode": "param",
             "param": "target",
             "decode": ["url"],
             "author": "PRO-2684"
@@ -285,7 +285,7 @@
     "www.minecraftforum.net/": {
         "linkout": {
             "description": "Minecraft Forum 外链",
-            "mode": 3,
+            "mode": "param",
             "param": "remoteUrl",
             "decode": ["url"],
             "author": "PRO-2684"
@@ -294,7 +294,7 @@
     "www.curseforge.com/": {
         "linkout": {
             "description": "CurseForge 外链",
-            "mode": 3,
+            "mode": "param",
             "param": "remoteUrl",
             "decode": ["url"],
             "author": "PRO-2684"
@@ -303,7 +303,7 @@
     "www.urlshare.cn/": {
         "umirror_url_check": {
             "description": "URLShare 外链",
-            "mode": 3,
+            "mode": "param",
             "param": "url",
             "decode": ["url"],
             "author": "PRO-2684"
@@ -311,7 +311,7 @@
     },
     "": {
         "description": "Fallback",
-        "mode": 1,
+        "mode": "black",
         "params": [
             "utm_source",
             "utm_medium",
