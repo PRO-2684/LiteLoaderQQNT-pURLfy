@@ -18,7 +18,7 @@
         "branch": "main",
         "release": {
             "tag": "0.1.2",
-            "file": "pURLfy-release.zip"
+            "file": "purlfy-release.zip"
         }
     },
     "platform": [
