@@ -30,7 +30,7 @@ jobs:
         if: ${{ steps.read-versions.outputs.version != steps.read-versions.outputs.previous-version }}
         run: |
           echo "Creating a release zip file..."
-          zip -r transitio-release.zip icons/ main.js manifest.json preload.js renderer.js settings.html
+          zip -r purlfy-release.zip icons/ main.js manifest.json preload.js renderer.js rules.json settings.html
           echo "Done!"
 
       - name: "Create Release"
@@ -39,7 +39,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          automatic_release_tag: "v${{ steps.read-versions.outputs.version }}"
+          automatic_release_tag: "${{ steps.read-versions.outputs.version }}"
           title: "v${{ steps.read-versions.outputs.version }}"
           files: |
-            transitio-release.zip
+            purlfy-release.zip

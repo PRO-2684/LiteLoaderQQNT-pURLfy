@@ -25,7 +25,7 @@
 
 ### 手动安装
 
-- ~~稳定版: 下载 Release 中的 `purlfy-release.zip`，解压后放入[数据目录](https://github.com/mo-jinran/LiteLoaderQQNT-Plugin-Template/wiki/1.%E4%BA%86%E8%A7%A3%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84#liteloader%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95)下的 `plugins/purlfy` 文件夹中即可。(若没有该文件夹请自行创建)~~
+- 稳定版: 下载 Release 中的 `purlfy-release.zip`，解压后放入[数据目录](https://github.com/mo-jinran/LiteLoaderQQNT-Plugin-Template/wiki/1.%E4%BA%86%E8%A7%A3%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84#liteloader%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95)下的 `plugins/purlfy` 文件夹中即可。(若没有该文件夹请自行创建)
 - CI 版: 若想体验最新的 CI 功能，可以下载源码后同上安装。(仅需下载下面列出的文件)
 
 完成后的目录结构应该如下:
@@ -75,7 +75,7 @@ plugins (所有的插件目录)
 
 ### 路径匹配
 
-一个简单的例子:
+一个简单的例子，规则描述内给出了可以匹配的网址:
 
 ```json
 {
@@ -112,7 +112,7 @@ plugins (所有的插件目录)
 }
 ```
 
-以下是一个**错误的**例子，因为以 `/` 结尾的会被认为下面有子路径，正确写法是把 `path/to/page/` 改为 `path/to/page`:
+以下是一个***错误的***例子，因为以 `/` 结尾的会被认为下面有子路径，正确写法是把 `path/to/page/` 改为 `path/to/page`:
 
 ```json
 {
