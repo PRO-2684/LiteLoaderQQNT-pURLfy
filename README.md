@@ -65,9 +65,8 @@ plugins (所有的插件目录)
 }
 ```
 
-- `<domain>`: 域名，例如 `example.com`
-- `<path>`: 路径，例如 `path/to/page` (去除前面的 `/`)
-    - 若为 `""`，则表示作为 **FallBack** 规则：当没有匹配到其他规则时使用此规则
+- `<domain>`, `<path>`: 域名和路径，例如 `example.com/`, `path/to/page` (去除前面的 `/`)
+    - 若为 `""`，则表示作为 **FallBack** 规则：当此层级没有匹配到其他规则时使用此规则
     - 若不以 `/` 结尾，表示其值就是一个规则
     - 若以 `/` 结尾，表示其下有更多子路径 (可以多级嵌套)
 - `<模式>`: 规则模式，`0` 为白名单，`1` 为黑名单~~，`2` 为正则表达式，`3` 为取特定参数~~
@@ -79,7 +78,7 @@ plugins (所有的插件目录)
 
 ```json
 {
-    "example.com": {
+    "example.com/": {
         "a/b/c": {
             "description": "example.com/a/b/c",
             "mode": 0,
@@ -108,16 +107,42 @@ plugins (所有的插件目录)
             "params": [],
             "author": "PRO-2684"
         }
+    },
+    "example.org": {
+        "description": "example.org/*",
+        "mode": 0,
+        "params": [],
+        "author": "PRO-2684"
+    },
+    "": {
+        "description": "Fallback",
+        "mode": 0,
+        "params": [
+            "utm_source",
+            "utm_medium",
+            "utm_campaign",
+            "utm_term",
+            "utm_content"
+        ],
+        "author": "PRO-2684"
     }
 }
 ```
 
-以下是一个***错误的***例子，因为以 `/` 结尾的会被认为下面有子路径，正确写法是把 `path/to/page/` 改为 `path/to/page`:
+以下是***错误示范***:
 
-```json
+```jsonc
 {
-    "example.com": {
-        "path/to/page/": {
+    "example.com/": {
+        "path/to/page/": { // 以 `/` 结尾的会被认为下面有子路径，正确写法是把 `path/to/page/` 改为 `path/to/page`
+            "description": "example.com/path/to/page",
+            "mode": 0,
+            "params": [],
+            "author": "PRO-2684"
+        }
+    },
+    "example.org": { // 不以 `/` 结尾的会被认为是一个规则，正确写法是把 `example.org` 改为 `example.org/`
+        "path/to/page": {
             "description": "example.com/path/to/page",
             "mode": 0,
             "params": [],

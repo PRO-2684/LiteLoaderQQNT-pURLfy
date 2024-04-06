@@ -33,7 +33,7 @@ function removeSlashes(pathname) { // Remove leading and trailing slashes
     return pathname.replace(/^\/+|\/+$/g, "");
 }
 
-function matchRuleForPath(pathParts, currentRules) {
+function matchRule(parts, currentRules) {
     // Recursive, longest matching
     let matchedRule = null;
     let maxMatchedParts = 0;
@@ -41,19 +41,19 @@ function matchRuleForPath(pathParts, currentRules) {
         if (rulePath === "") continue; // Fallback rule should be handled last
         const ruleParts = rulePath.split("/");
         const effectiveRuleLength = ruleParts[ruleParts.length - 1] === "" ? ruleParts.length - 1 : ruleParts.length; // Ignore trailing slash
-        if (effectiveRuleLength > pathParts.length) { // Impossible to match
+        if (effectiveRuleLength > parts.length) { // Impossible to match
             continue;
         }
         let matchedParts = 0;
         let isMatched = true;
         let nestedMatchedRule = null;
         for (let i = 0; i < ruleParts.length; i++) {
-            if (ruleParts[i] === pathParts[i]) {
+            if (ruleParts[i] === parts[i]) {
                 matchedParts++;
             } else if (ruleParts[i] === "" && i === ruleParts.length - 1) { // Ending with a slash - recursive matching
                 const nextRules = currentRules[rulePath];
-                const nextPathParts = pathParts.slice(i);
-                const [nextRule, nextMatchedParts] = matchRuleForPath(nextPathParts, nextRules);
+                const nextPathParts = parts.slice(i);
+                const [nextRule, nextMatchedParts] = matchRule(nextPathParts, nextRules);
                 if (nextRule) {
                     matchedParts += nextMatchedParts;
                     nestedMatchedRule = nextRule;
@@ -89,10 +89,9 @@ function purifyURL(url) {
     if (protocol !== "http:" && protocol !== "https:") { // Not a valid HTTP URL
         return url;
     }
-    const host = urlObj.host ?? "";
-    const pathname = removeSlashes(urlObj.pathname) ?? "";
-    const pathParts = pathname.split("/").filter(part => part !== "");
-    const rule = matchRuleForPath(pathParts, rules[host] ?? rules[""])[0];
+    const hostAndPath = urlObj.host + urlObj.pathname;
+    const parts = hostAndPath.split("/").filter(part => part !== "");
+    const rule = matchRule(parts, rules)[0];
     log(`Matching rule for ${url}: ${rule.description} by ${rule.author}`);
     if (!rule) { // No matching rule found
         return url;

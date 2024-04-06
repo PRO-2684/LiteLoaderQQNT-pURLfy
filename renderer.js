@@ -9,7 +9,10 @@ async function onSettingWindowCreated(view) {
     const input = $("#purlfy-clean-input");
     input.addEventListener("keyup", async (event) => {
         if (event.key === "Enter") {
-            const result = input.value ? await purlfy.purify(input.value) : { url: "", rule: "" };
+            if (!input.value) {
+                input.value = input.getAttribute("placeholder");
+            }
+            const result = await purlfy.purify(input.value);
             $("#purlfy-clean-url").value = result.url;
             $("#purlfy-clean-rule").value = result.rule;
         }
