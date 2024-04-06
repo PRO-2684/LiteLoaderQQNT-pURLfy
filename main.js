@@ -33,6 +33,48 @@ function removeSlashes(pathname) { // Remove leading and trailing slashes
     return pathname.replace(/^\/+|\/+$/g, "");
 }
 
+function matchRuleForPath(pathParts, currentRules) {
+    // Recursive, longest matching
+    let matchedRule = null;
+    let maxMatchedParts = 0;
+    for (const rulePath in currentRules) {
+        if (rulePath === "") continue; // Fallback rule should be handled last
+        const ruleParts = rulePath.split("/");
+        const effectiveRuleLength = ruleParts[ruleParts.length - 1] === "" ? ruleParts.length - 1 : ruleParts.length; // Ignore trailing slash
+        if (effectiveRuleLength > pathParts.length) { // Impossible to match
+            continue;
+        }
+        let matchedParts = 0;
+        let isMatched = true;
+        let nestedMatchedRule = null;
+        for (let i = 0; i < ruleParts.length; i++) {
+            if (ruleParts[i] === pathParts[i]) {
+                matchedParts++;
+            } else if (ruleParts[i] === "" && i === ruleParts.length - 1) { // Ending with a slash - recursive matching
+                const nextRules = currentRules[rulePath];
+                const nextPathParts = pathParts.slice(i);
+                const [nextRule, nextMatchedParts] = matchRuleForPath(nextPathParts, nextRules);
+                if (nextRule) {
+                    matchedParts += nextMatchedParts;
+                    nestedMatchedRule = nextRule;
+                } else {
+                    isMatched = false;
+                }
+            } else {
+                isMatched = false;
+                break;
+            }
+        }
+        if (isMatched && matchedParts > maxMatchedParts) {
+            matchedRule = nestedMatchedRule ?? currentRules[rulePath];
+            maxMatchedParts = matchedParts;
+        }
+    }
+    matchedRule ??= currentRules[""]; // Fallback
+    // Returns the matched rule and matched parts count
+    return [matchedRule, maxMatchedParts];
+}
+
 function purifyURL(url) {
     if (!url.startsWith("http")) { // Not a valid URL
         return url;
@@ -49,8 +91,9 @@ function purifyURL(url) {
     }
     const host = urlObj.host ?? "";
     const pathname = removeSlashes(urlObj.pathname) ?? "";
-    const rule = rules[host]?.[pathname] ?? rules[host]?.[""] ?? rules[""]?.[""];
-    log(`Matching rule for ${url}:`, rule.description, "by", rule.author);
+    const pathParts = pathname.split("/").filter(part => part !== "");
+    const rule = matchRuleForPath(pathParts, rules[host] ?? rules[""])[0];
+    log(`Matching rule for ${url}: ${rule.description} by ${rule.author}`);
     if (!rule) { // No matching rule found
         return url;
     }
