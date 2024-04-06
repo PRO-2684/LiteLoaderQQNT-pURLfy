@@ -137,9 +137,9 @@ plugins (所有的插件目录)
 {
     "description": "<规则描述>",
     "mode": "<模式>",
-    "params": ["<param 1>", "<param 2>", ...], // 仅在 `white`/`black` 模式下有效 (mode = 0/1)
-    "param": "<param 3>", // 仅在 `param` 模式下有效 (mode = 3)
-    "decode": ["<decode_func 1>", "<decode_func 2>"], // 仅在 `param` 模式下有效 (mode = 3)
+    "params": ["<param 1>", "<param 2>", ...], // 仅在 `white`/`black` 模式下有效
+    "param": "<param 3>", // 仅在 `param` 模式下有效
+    "decode": ["<decode_func 1>", "<decode_func 2>"], // 仅在 `param` 模式下有效
     "author": "<作者>"
 }
 ```
