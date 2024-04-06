@@ -157,8 +157,8 @@ function purifyURL(url) { // Purify the given URL based on `rules`
     }
     log(`Purified URL:`, newURL);
     statistics.url++;
-    statistics.param += ([0, 1].includes(mode)) ? (paramsCntBefore - paramsCntAfter) : 0;
-    statistics.decoded += (mode === 3) ? 1 : 0;
+    statistics.param += (["white", "black"].includes(mode)) ? (paramsCntBefore - paramsCntAfter) : 0;
+    statistics.decoded += (mode === "param") ? 1 : 0;
     statistics.char += url.length - newURL.length;
     notifyStatisticsChange();
     return {

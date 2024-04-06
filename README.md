@@ -2,7 +2,7 @@
 
 # pURLfy
 
-> 🧹 pURLfy, 取自 "purify" 和 "URL" 的结合，意为净化 URL 链接。
+> 🧹 pURLfy, 取自 "purify" 和 "URL" 的结合，意为净化 URL 链接，可发音为 `pjuɑrelfaɪ`。
 
 [LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于净化 QQNT 中的 URL 链接。此插件灵感来源于 [Tarnhelm](https://tarnhelm.project.ac.cn/)。
 
@@ -10,7 +10,7 @@
 
 - 自动净化将要在浏览器打开的 URL 链接 (`shell.openExternal`)
 - 临时禁用：在插件设置中可以临时禁用插件的净化功能，以便在需要时打开原始链接
-- 统计数据：净化的链接数量、净化的参数数量、净化的字符数量
+- 统计数据：净化的链接数量、净化的参数数量、解码的网址数量、净化的字符数量
     - \* 仅在程序正常退出时才会保存数据
 
 ## 🖼️ 截图
@@ -58,7 +58,7 @@ plugins (所有的插件目录)
         "<path>": {
             // 一条具体的规则
             "description": "<规则描述>",
-            "mode": <模式>,
+            "mode": "<模式>",
             "params": ["<param 1>", "<param 2>", ...], // 可选
             "param": "<param 3>", // 可选
             "decode": ["<decode_func 1>", "<decode_func 2>"], // 可选
