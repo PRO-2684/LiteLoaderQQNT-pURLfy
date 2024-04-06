@@ -15,6 +15,7 @@ const rulesPath = path.join(pluginPath, "rules.json");
 const statistics = LiteLoader.api.config.get(slug, {
     url: 0,
     param: 0,
+    decoded: 0,
     char: 0
 });
 log("Statistics loaded:", statistics);
@@ -28,6 +29,13 @@ function loadRules() { // Load rules from `rules.json`
         log(`Rules for ${Object.keys(rules).length} domains loaded.`)
     }
 }
+
+// === pURLfy CORE start ===
+
+const decoders = {
+    "url": decodeURIComponent,
+    "base64": atob,
+};
 
 function matchRule(parts, currentRules) { // Recursively match the longest rule for the given URL parts
     let matchedRule = null; // Matched rule
@@ -74,8 +82,9 @@ function purifyURL(url) { // Purify the given URL based on `rules`
     if (!url.startsWith("http")) { // Not a valid URL
         return url;
     }
+    let urlObj;
     try {
-        var urlObj = new URL(url);
+        urlObj = new URL(url);
     } catch (e) {
         log(`Error parsing URL ${url}:`, e);
         return url;
@@ -92,12 +101,11 @@ function purifyURL(url) { // Purify the given URL based on `rules`
         return url;
     }
     const mode = rule.mode;
-    const params = rule.params;
     const paramsCntBefore = urlObj.searchParams.size
     switch (mode) {
         case 0: { // Whitelist mode
             const newParams = new URLSearchParams();
-            for (const param of params) {
+            for (const param of rule.params) {
                 if (urlObj.searchParams.has(param)) {
                     newParams.set(param, urlObj.searchParams.get(param));
                 }
@@ -106,7 +114,7 @@ function purifyURL(url) { // Purify the given URL based on `rules`
             break;
         }
         case 1: { // Blacklist mode
-            for (const param of params) {
+            for (const param of rule.params) {
                 urlObj.searchParams.delete(param);
             }
             break;
@@ -117,7 +125,20 @@ function purifyURL(url) { // Purify the given URL based on `rules`
         }
         case 3: { // Decode mode
             // Decode given parameter to be used as a new URL
-            log("Decode mode not implemented yet");
+            const param = urlObj.searchParams.get(rule.param);
+            if (!param) {
+                log("Parameter not found:", rule.param);
+                break;
+            }
+            let dest = param;
+            for (const name of rule.decode) {
+                const decoder = decoders[name] ?? (s => s);
+                dest = decoder(dest);
+            }
+            log(`Decoded URL: ${dest}, calling purifyURL recursively... {`);
+            dest = purifyURL(dest).url;
+            urlObj = new URL(dest);
+            log("} Decoded URL purify finished.");
             break;
         }
         default: {
@@ -136,7 +157,8 @@ function purifyURL(url) { // Purify the given URL based on `rules`
     }
     log(`Purified URL:`, newURL);
     statistics.url++;
-    statistics.param += paramsCntBefore - paramsCntAfter;
+    statistics.param += ([0, 1].includes(mode)) ? (paramsCntBefore - paramsCntAfter) : 0;
+    statistics.decoded += (mode === 3) ? 1 : 0;
     statistics.char += url.length - newURL.length;
     notifyStatisticsChange();
     return {
@@ -144,6 +166,8 @@ function purifyURL(url) { // Purify the given URL based on `rules`
         rule: `${rule.description} by ${rule.author}`
     };
 }
+
+// === pURLfy CORE end ===
 
 function notifyStatisticsChange() { // Notify the setting window about statistics change
     if (settingWindow) {

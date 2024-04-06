@@ -214,6 +214,101 @@
         ],
         "author": "omg-xtao"
     },
+    "links.jianshu.com/": {
+        "go": {
+            "description": "简书外链",
+            "mode": 3,
+            "param": "to",
+            "decode": ["url"],
+            "author": "PRO-2684"
+        }
+    },
+    "link.juejin.cn" : {
+        "description": "掘金外链",
+        "mode": 3,
+        "param": "target",
+        "decode": ["url"],
+        "author": "PRO-2684"
+    },
+    "gitee.com/": {
+        "link": {
+            "description": "Gitee 外链",
+            "mode": 3,
+            "param": "target",
+            "decode": ["url"],
+            "author": "PRO-2684"
+        }
+    },
+    "link.zhihu.com": {
+        "description": "知乎外链",
+        "mode": 3,
+        "param": "target",
+        "decode": ["url"],
+        "author": "PRO-2684"
+    },
+    "security.feishu.cn/": {
+        "link/safety": {
+            "description": "飞书外链",
+            "mode": 3,
+            "param": "target",
+            "decode": ["url"],
+            "author": "PRO-2684"
+        }
+    },
+    "leetcode.cn/": {
+        "link": {
+            "description": "LeetCode 外链",
+            "mode": 3,
+            "param": "target",
+            "decode": [],
+            "author": "PRO-2684"
+        }
+    },
+    "weibo.cn/": {
+        "sinaurl": {
+            "description": "微博外链",
+            "mode": 3,
+            "param": "u",
+            "decode": ["url"],
+            "author": "PRO-2684"
+        }
+    },
+    "www.mcbbs.net/": {
+        "plugin.php": {
+            "description": "MCBBS 外链",
+            "mode": 3,
+            "param": "target",
+            "decode": ["url"],
+            "author": "PRO-2684"
+        }
+    },
+    "www.minecraftforum.net/": {
+        "linkout": {
+            "description": "Minecraft Forum 外链",
+            "mode": 3,
+            "param": "remoteUrl",
+            "decode": ["url"],
+            "author": "PRO-2684"
+        }
+    },
+    "www.curseforge.com/": {
+        "linkout": {
+            "description": "CurseForge 外链",
+            "mode": 3,
+            "param": "remoteUrl",
+            "decode": ["url"],
+            "author": "PRO-2684"
+        }
+    },
+    "www.urlshare.cn/": {
+        "umirror_url_check": {
+            "description": "URLShare 外链",
+            "mode": 3,
+            "param": "url",
+            "decode": ["url"],
+            "author": "PRO-2684"
+        }
+    },
     "": {
         "description": "Fallback",
         "mode": 1,

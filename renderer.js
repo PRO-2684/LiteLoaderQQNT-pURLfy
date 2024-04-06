@@ -1,5 +1,4 @@
-const slug = "purlfy";
-const pluginPath = LiteLoader.plugins[slug].path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
+const pluginPath = LiteLoader.plugins.purlfy.path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
 
 async function onSettingWindowCreated(view) {
     const $ = view.querySelector.bind(view);
