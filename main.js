@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { BrowserWindow, ipcMain, webContents, shell, app } = require("electron");
+const { BrowserWindow, ipcMain, shell, app } = require("electron");
 let rules = {};
 let settingWindow = null;
 let tempDisable = false;
@@ -19,7 +19,7 @@ const statistics = LiteLoader.api.config.get(slug, {
 });
 log("Statistics loaded:", statistics);
 
-function loadRules() {
+function loadRules() { // Load rules from `rules.json`
     try {
         rules = JSON.parse(fs.readFileSync(rulesPath, "utf8"));
     } catch (e) {
@@ -29,14 +29,9 @@ function loadRules() {
     }
 }
 
-function removeSlashes(pathname) { // Remove leading and trailing slashes
-    return pathname.replace(/^\/+|\/+$/g, "");
-}
-
-function matchRule(parts, currentRules) {
-    // Recursive, longest matching
-    let matchedRule = null;
-    let maxMatchedParts = 0;
+function matchRule(parts, currentRules) { // Recursively match the longest rule for the given URL parts
+    let matchedRule = null; // Matched rule
+    let maxMatchedParts = 0; // Matched parts count
     for (const rulePath in currentRules) {
         if (rulePath === "") continue; // Fallback rule should be handled last
         const ruleParts = rulePath.split("/");
@@ -75,7 +70,7 @@ function matchRule(parts, currentRules) {
     return [matchedRule, maxMatchedParts];
 }
 
-function purifyURL(url) {
+function purifyURL(url) { // Purify the given URL based on `rules`
     if (!url.startsWith("http")) { // Not a valid URL
         return url;
     }
@@ -150,14 +145,14 @@ function purifyURL(url) {
     };
 }
 
-function notifyStatisticsChange() {
+function notifyStatisticsChange() { // Notify the setting window about statistics change
     if (settingWindow) {
         log("Notify statistics change");
         settingWindow.webContents.send("LiteLoader.purlfy.statisticsChange", statistics);
     }
 }
 
-function notifyTempDisableChange() {
+function notifyTempDisableChange() { // Notify the setting window about temp disable change
     if (settingWindow) {
         log("Notify temp disable change:", tempDisable);
         settingWindow.webContents.send("LiteLoader.purlfy.tempDisableChange", tempDisable);
@@ -202,7 +197,7 @@ shell.openExternal = function (url, options) {
     return originalOpen(tempDisable ? url : purifyURL(url).url, options);
 };
 
-// Cleanup
+// Cleanup - Save statistics
 app.on("will-quit", () => {
     LiteLoader.api.config.set(slug, statistics);
     log("Statistics saved:", statistics);
