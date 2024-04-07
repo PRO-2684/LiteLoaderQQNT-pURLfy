@@ -12,12 +12,16 @@ const log = isDebug ? console.log.bind(console, "\x1b[38;2;220;20;60m%s\x1b[0m",
 
 const pluginPath = LiteLoader.plugins[slug].path.plugin;
 const rulesPath = path.join(pluginPath, "rules.json");
-const statistics = LiteLoader.api.config.get(slug, {
-    url: 0,
-    param: 0,
-    decoded: 0,
-    char: 0
+const data = LiteLoader.api.config.get(slug, {
+    statistics: {
+        url: 0,
+        param: 0,
+        decoded: 0,
+        char: 0
+    },
+    lambdaEnabled: false,
 });
+let { statistics, lambdaEnabled } = data;
 log("Statistics loaded:", statistics);
 
 function loadRules() { // Load rules from `rules.json`
@@ -36,6 +40,23 @@ const decoders = {
     "url": decodeURIComponent,
     "base64": atob,
 };
+
+function validRule(rule) { // Check if the given rule is valid
+    if (!rule || !rule.mode || !rule.description || !rule.author) return false;
+    switch (rule.mode) {
+        case "white":
+        case "black":
+            return Array.isArray(rule.params);
+        case "regex":
+            return false; // Not implemented yet
+        case "param":
+            return Array.isArray(rule.params) && Array.isArray(rule.decode);
+        case "lambda":
+            return lambdaEnabled && typeof rule.lambda === "string";
+        default:
+            return false;
+    }
+}
 
 function matchRule(parts, currentRules) { // Recursively match the longest rule for the given URL parts
     let matchedRule = null; // Matched rule
@@ -68,8 +89,9 @@ function matchRule(parts, currentRules) { // Recursively match the longest rule 
                 break;
             }
         }
-        if (isMatched && matchedParts > maxMatchedParts) {
-            matchedRule = nestedMatchedRule ?? currentRules[rulePath];
+        const possibleRule = nestedMatchedRule ?? currentRules[rulePath];
+        if (isMatched && matchedParts > maxMatchedParts && validRule(possibleRule)) {
+            matchedRule = possibleRule;
             maxMatchedParts = matchedParts;
         }
     }
@@ -96,10 +118,11 @@ function purifyURL(url) { // Purify the given URL based on `rules`
     const hostAndPath = urlObj.host + urlObj.pathname;
     const parts = hostAndPath.split("/").filter(part => part !== "");
     const rule = matchRule(parts, rules)[0];
-    log(`Matching rule for ${url}: ${rule.description} by ${rule.author}`);
     if (!rule) { // No matching rule found
+        log(`No matching rule found for ${url}.`);
         return url;
     }
+    log(`Matching rule for ${url}: ${rule.description} by ${rule.author}`);
     const mode = rule.mode;
     const paramsCntBefore = urlObj.searchParams.size
     switch (mode) {
@@ -141,10 +164,31 @@ function purifyURL(url) { // Purify the given URL based on `rules`
                 const decoder = decoders[name] ?? (s => s);
                 dest = decoder(dest);
             }
-            log(`Decoded URL: ${dest}, calling purifyURL recursively... {`);
-            dest = purifyURL(dest).url;
+            log(`Decoded URL: ${dest}`);
+            if (rule.recursive ?? true) { // Recursively purify the decoded URL, default to true
+                log("Recursive purifying... {");
+                dest = purifyURL(dest).url;
+                log("} Recursive purifying finished.");
+            }
             urlObj = new URL(dest);
-            log("} Decoded URL purify finished.");
+            break;
+        }
+        case "lambda": {
+            if (!lambdaEnabled) {
+                log("Lambda mode is disabled.");
+                break;
+            }
+            try {
+                const lambda = new Function("url", rule.lambda);
+                urlObj = lambda(urlObj);
+            } catch (e) {
+                log("Error executing lambda:", e);
+            }
+            if (rule.recursive ?? true) { // Recursively purify the decoded URL, default to true
+                log("Recursive purifying... {");
+                urlObj = new URL(purifyURL(urlObj.href).url);
+                log("} Recursive purifying finished.");
+            }
             break;
         }
         default: {
@@ -152,20 +196,20 @@ function purifyURL(url) { // Purify the given URL based on `rules`
             break;
         }
     }
-    const newURL = urlObj.toString();
+    const newURL = urlObj.href;
     const paramsCntAfter = urlObj.searchParams.size;
     if (newURL === url) { // No changes made
         log("No changes made to URL:", url);
         return {
             url: url,
-            rule: ""
+            rule: `* ${rule.description} by ${rule.author}`
         };
     }
     log(`Purified URL:`, newURL);
     statistics.url++;
     statistics.param += (["white", "black"].includes(mode)) ? (paramsCntBefore - paramsCntAfter) : 0;
     statistics.decoded += (mode === "param") ? 1 : 0;
-    statistics.char += url.length - newURL.length;
+    statistics.char += Math.max(url.length - newURL.length, 0); // Prevent negative char count
     notifyStatisticsChange();
     return {
         url: newURL,
@@ -182,6 +226,13 @@ function notifyStatisticsChange() { // Notify the setting window about statistic
     }
 }
 
+function notifyLambdaEnabledChange() { // Notify the setting window about lambda enabled change
+    if (settingWindow) {
+        log("Notify lambda enabled change:", lambdaEnabled);
+        settingWindow.webContents.send("LiteLoader.purlfy.lambdaEnabledChange", lambdaEnabled);
+    }
+}
+
 function notifyTempDisableChange() { // Notify the setting window about temp disable change
     if (settingWindow) {
         log("Notify temp disable change:", tempDisable);
@@ -195,6 +246,14 @@ loadRules();
 // IPC handlers
 ipcMain.on("LiteLoader.purlfy.reloadRules", () => {
     loadRules();
+});
+ipcMain.on("LiteLoader.purlfy.setLambdaEnabled", (event, value) => {
+    log("setLambdaEnabled:", value);
+    if (lambdaEnabled === value) {
+        return;
+    }
+    lambdaEnabled = value;
+    notifyLambdaEnabledChange();
 });
 ipcMain.on("LiteLoader.purlfy.setTempDisable", (event, value) => {
     log("setTempDisable:", value);
@@ -214,7 +273,8 @@ ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
     return {
         statistics: statistics,
         tempDisable: tempDisable,
-        isDebug: isDebug
+        isDebug: isDebug,
+        lambdaEnabled: lambdaEnabled
     };
 });
 ipcMain.handle("LiteLoader.purlfy.purify", (event, url) => {
@@ -229,6 +289,9 @@ shell.openExternal = function (url, options) {
 
 // Cleanup - Save statistics
 app.on("will-quit", () => {
-    LiteLoader.api.config.set(slug, statistics);
+    LiteLoader.api.config.set(slug, {
+        statistics: statistics,
+        lambdaEnabled: lambdaEnabled
+    });
     log("Statistics saved:", statistics);
 });

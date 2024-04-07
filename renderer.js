@@ -18,7 +18,8 @@ async function onSettingWindowCreated(view) {
     });
     $("#purlfy-reload-rules").addEventListener("click", purlfy.reloadRules);
 
-    // Statistics and temp disable
+    // Statistics and switches
+    const lambdaEnabledButton = $("#purlfy-lambda-enabled");
     const tempDisableButton = $("#purlfy-temp-disable");
     function removeTrailingZeroes(s) {
         return s.replace(/\.?0+$/, "");
@@ -41,10 +42,18 @@ async function onSettingWindowCreated(view) {
             }
         }
     }
+    async function updateLambdaEnabled(lambdaEnabled) {
+        lambdaEnabledButton.toggleAttribute("is-active", lambdaEnabled);
+        lambdaEnabledButton.parentElement.classList.toggle("is-loading", false);
+    }
     async function updateTempDisable(tempDisable) {
         tempDisableButton.toggleAttribute("is-active", tempDisable);
         tempDisableButton.parentElement.classList.toggle("is-loading", false);
     }
+    lambdaEnabledButton.addEventListener("click", async () => {
+        lambdaEnabledButton.parentElement.classList.toggle("is-loading", true);
+        purlfy.setLambdaEnabled(!lambdaEnabledButton.hasAttribute("is-active"));
+    });
     tempDisableButton.addEventListener("click", async () => {
         tempDisableButton.parentElement.classList.toggle("is-loading", true);
         purlfy.setTempDisable(!tempDisableButton.hasAttribute("is-active"));
@@ -52,11 +61,15 @@ async function onSettingWindowCreated(view) {
     purlfy.onStatisticsChange(async (event, statistics) => {
         updateStatistics(statistics);
     });
+    purlfy.onLambdaEnabledChange(async (event, lambdaEnabled) => {
+        updateLambdaEnabled(lambdaEnabled);
+    });
     purlfy.onTempDisableChange(async (event, tempDisable) => {
         updateTempDisable(tempDisable);
     });
     const info = await purlfy.getInfo();
     updateStatistics(info.statistics);
+    updateLambdaEnabled(info.lambdaEnabled);
     updateTempDisable(info.tempDisable);
     if (info.isDebug) {
         const debugText = $("#purlfy-debug");
