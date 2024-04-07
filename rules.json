@@ -156,16 +156,20 @@
         ],
         "author": "lz233"
     },
-    "mp.weixin.qq.com": {
-        "description": "微信公众号文章",
-        "mode": "white",
-        "params": [
-            "__biz",
-            "mid",
-            "idx",
-            "sn"
-        ],
-        "author": "PRO-2684"
+    "mp.weixin.qq.com/": {
+        "s": {
+            "description": "微信公众号文章",
+            "mode": "white",
+            "params": [
+                "__biz",
+                "mid",
+                "idx",
+                "sn",
+                "tempkey",
+                "previewkey"
+            ],
+            "author": "PRO-2684"
+        }
     },
     "k.youshop10.com": {
         "description": "微店",
@@ -180,7 +184,7 @@
         "author": "RtYkk"
     },
     "www.youtube.com": {
-        "description": "YouTube一般链接",
+        "description": "YouTube 一般链接",
         "mode": "white",
         "params": [
             "v"
@@ -188,7 +192,7 @@
         "author": "Mosney"
     },
     "youtu.be": {
-        "description": "YouTube分享短链",
+        "description": "YouTube 分享短链",
         "mode": "white",
         "params": [],
         "author": "Monsey"
@@ -218,40 +222,60 @@
         "go": {
             "description": "简书外链",
             "mode": "param",
-            "param": "to",
-            "decode": ["url"],
+            "params": [
+                "to"
+            ],
+            "decode": [
+                "url"
+            ],
             "author": "PRO-2684"
         }
     },
-    "link.juejin.cn" : {
+    "link.juejin.cn": {
         "description": "掘金外链",
         "mode": "param",
-        "param": "target",
-        "decode": ["url"],
+        "params": [
+            "target"
+        ],
+        "decode": [
+            "url"
+        ],
         "author": "PRO-2684"
     },
     "gitee.com/": {
         "link": {
             "description": "Gitee 外链",
             "mode": "param",
-            "param": "target",
-            "decode": ["url"],
+            "params": [
+                "target"
+            ],
+            "decode": [
+                "url"
+            ],
             "author": "PRO-2684"
         }
     },
     "link.zhihu.com": {
         "description": "知乎外链",
         "mode": "param",
-        "param": "target",
-        "decode": ["url"],
+        "params": [
+            "target"
+        ],
+        "decode": [
+            "url"
+        ],
         "author": "PRO-2684"
     },
     "security.feishu.cn/": {
         "link/safety": {
             "description": "飞书外链",
             "mode": "param",
-            "param": "target",
-            "decode": ["url"],
+            "params": [
+                "target"
+            ],
+            "decode": [
+                "url"
+            ],
             "author": "PRO-2684"
         }
     },
@@ -259,7 +283,9 @@
         "link": {
             "description": "LeetCode 外链",
             "mode": "param",
-            "param": "target",
+            "params": [
+                "target"
+            ],
             "decode": [],
             "author": "PRO-2684"
         }
@@ -268,8 +294,13 @@
         "sinaurl": {
             "description": "微博外链",
             "mode": "param",
-            "param": "u",
-            "decode": ["url"],
+            "params": [
+                "u",
+                "toasturl"
+            ],
+            "decode": [
+                "url"
+            ],
             "author": "PRO-2684"
         }
     },
@@ -277,8 +308,12 @@
         "plugin.php": {
             "description": "MCBBS 外链",
             "mode": "param",
-            "param": "target",
-            "decode": ["url"],
+            "params": [
+                "target"
+            ],
+            "decode": [
+                "url"
+            ],
             "author": "PRO-2684"
         }
     },
@@ -286,8 +321,12 @@
         "linkout": {
             "description": "Minecraft Forum 外链",
             "mode": "param",
-            "param": "remoteUrl",
-            "decode": ["url"],
+            "params": [
+                "remoteUrl"
+            ],
+            "decode": [
+                "url"
+            ],
             "author": "PRO-2684"
         }
     },
@@ -295,8 +334,12 @@
         "linkout": {
             "description": "CurseForge 外链",
             "mode": "param",
-            "param": "remoteUrl",
-            "decode": ["url"],
+            "params": [
+                "remoteUrl"
+            ],
+            "decode": [
+                "url"
+            ],
             "author": "PRO-2684"
         }
     },
@@ -304,9 +347,436 @@
         "umirror_url_check": {
             "description": "URLShare 外链",
             "mode": "param",
-            "param": "url",
-            "decode": ["url"],
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
             "author": "PRO-2684"
+        }
+    },
+    "c.pc.qq.com": {
+        "description": "QQ 外链",
+        "mode": "param",
+        "params": [
+            "pfurl",
+            "url"
+        ],
+        "decode": [
+            "url"
+        ],
+        "author": "OldPanda"
+    },
+    "afdian.net/": {
+        "link": {
+            "description": "爱发电外链",
+            "mode": "param",
+            "params": [
+                "target"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.baike.com/": {
+        "redirect_link": {
+            "description": "抖音百科外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.chinaz.com/": {
+        "go.shtml": {
+            "description": "站长之家外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.coolapk.com/": {
+        "link": {
+            "description": "酷安外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "link.csdn.net": {
+        "description": "CSDN 外链",
+        "mode": "param",
+        "params": [
+            "target"
+        ],
+        "decode": [
+            "url"
+        ],
+        "author": "OldPanda"
+    },
+    "link.ld246.com/": {
+        "forward": {
+            "description": "链滴外链",
+            "mode": "param",
+            "params": [
+                "goto"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.360doc.cn/": {
+        "outlink.html": {
+            "description": "360 文档外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.douban.com/": {
+        "link2": {
+            "description": "豆瓣外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "game.bilibili.com/": {
+        "linkfilter": {
+            "description": "哔哩哔哩游戏中心外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "ref.gamer.com.tw/": {
+        "redir.php": {
+            "description": "巴哈姆特外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "xie.infoq.cn/": {
+        "link": {
+            "description": "InfoQ 外链",
+            "mode": "param",
+            "params": [
+                "target"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.instagram.com/": {
+        "linkshim": {
+            "description": "Instagram 外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.jianshu.com/": {
+        "go-wild": {
+            "description": "简书外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.kookapp.cn/": {
+        "go-wild.html": {
+            "description": "Kook 外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.linkedin.com/": {
+        "safety/go": {
+            "description": "LinkedIn 外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "link.logonews.cn": {
+        "description": "标志情报局外链",
+        "mode": "param",
+        "params": [
+            "url"
+        ],
+        "decode": [
+            "url"
+        ],
+        "author": "OldPanda"
+    },
+    "www.nodeseek.com/": {
+        "jump": {
+            "description": "NodeSeek 外链",
+            "mode": "param",
+            "params": [
+                "to"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.oschina.net/": {
+        "action/GoToLink": {
+            "description": "OSCHINA 外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.qcc.com/": {
+        "web/transfer-link": {
+            "description": "企查查外链",
+            "mode": "param",
+            "params": [
+                "link"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "docs.qq.com/": {
+        "scenario/link.html": {
+            "description": "QQ 文档外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "mail.qq.com/": {
+        "cgi-bin/readtemplate": {
+            "description": "QQ 邮箱外链",
+            "mode": "param",
+            "params": [
+                "gourl"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "shimo.im/": {
+        "outlink/black": {
+            "description": "石墨文档外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "sspai.com/": {
+        "link": {
+            "description": "少数派外链",
+            "mode": "param",
+            "params": [
+                "target"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "steamcommunity.com/": {
+        "linkfilter": {
+            "description": "Steam 社区外链",
+            "mode": "param",
+            "params": [
+                "url",
+                "u"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "t.me/": {
+        "iv": {
+            "description": "Telegram 外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "cloud.tencent.com/": {
+        "developer/tools/blog-entry": {
+            "description": "腾讯云外链",
+            "mode": "param",
+            "params": [
+                "target"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.tianyancha.com/": {
+        "security": {
+            "description": "天眼查外链",
+            "mode": "param",
+            "params": [
+                "target"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "tieba.baidu.com/": {
+        "mo/q/checkurl": {
+            "description": "百度贴吧外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "link.uisdc.com": {
+        "description": "优设网外链",
+        "mode": "param",
+        "params": [
+            "redirect"
+        ],
+        "decode": [
+            "url"
+        ],
+        "author": "OldPanda"
+    },
+    "developers.weixin.qq.com/": {
+        "community/middlepage/href": {
+            "description": "微信开放社区外链",
+            "mode": "param",
+            "params": [
+                "href"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.yuque.com/": {
+        "r/goto": {
+            "description": "语雀外链",
+            "mode": "param",
+            "params": [
+                "url"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
+        }
+    },
+    "www.youtube.com/": {
+        "redirect": {
+            "description": "YouTube 外链",
+            "mode": "param",
+            "params": [
+                "q"
+            ],
+            "decode": [
+                "url"
+            ],
+            "author": "OldPanda"
         }
     },
     "": {

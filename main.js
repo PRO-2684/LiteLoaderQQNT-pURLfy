@@ -125,12 +125,18 @@ function purifyURL(url) { // Purify the given URL based on `rules`
         }
         case "param": { // Specific param mode
             // Decode given parameter to be used as a new URL
-            const param = urlObj.searchParams.get(rule.param);
-            if (!param) {
-                log("Parameter not found:", rule.param);
+            let paramValue = null;
+            for (const param of rule.params) { // Find the first available parameter value
+                if (urlObj.searchParams.has(param)) {
+                    paramValue = urlObj.searchParams.get(param);
+                    break;
+                }
+            }
+            if (!paramValue) {
+                log("Parameter(s) not found:", rule.params.join(", "));
                 break;
             }
-            let dest = param;
+            let dest = paramValue;
             for (const name of rule.decode) {
                 const decoder = decoders[name] ?? (s => s);
                 dest = decoder(dest);

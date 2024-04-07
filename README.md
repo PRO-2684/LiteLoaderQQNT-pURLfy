@@ -59,9 +59,8 @@ plugins (所有的插件目录)
             // 一条具体的规则
             "description": "<规则描述>",
             "mode": "<模式>",
-            "params": ["<param 1>", "<param 2>", ...], // 可选
-            "param": "<param 3>", // 可选
-            "decode": ["<decode_func 1>", "<decode_func 2>"], // 可选
+            "params": ["<param 1>", "<param 2>", ...],
+            "decode": ["<decode_func 1>", "<decode_func 2>"],
             "author": "<作者>"
         }
     }
@@ -137,8 +136,7 @@ plugins (所有的插件目录)
 {
     "description": "<规则描述>",
     "mode": "<模式>",
-    "params": ["<param 1>", "<param 2>", ...], // 仅在 `white`/`black` 模式下有效
-    "param": "<param 3>", // 仅在 `param` 模式下有效
+    "params": ["<param 1>", "<param 2>", ...], // 仅在 `white`/`black` / `param` 模式下有效
     "decode": ["<decode_func 1>", "<decode_func 2>"], // 仅在 `param` 模式下有效
     "author": "<作者>"
 }
@@ -162,7 +160,7 @@ plugins (所有的插件目录)
 
 ### 取特定参数
 
-取特定参数模式下，pURLfy 会取出 `param` 中指定的参数，使用 `decode` 数组中指定的解码函数依次进行解码，随后将其作为新的 URL **再次执行净化**。若 `decode` 值无效，则不做处理。目前支持如下值:
+取特定参数模式下，pURLfy 会依次尝试取出 `params` 中指定的参数，直到匹配到第一个存在的参数；随后使用 `decode` 数组中指定的解码函数依次对参数值进行解码，并将其作为新的 URL **再次执行净化**。若 `decode` 值无效，则不做处理。目前支持如下值:
 
 - `url`: 解码 URL 编码 (`decodeURIComponent`)
 - `base64`: 解码 Base64 编码 (`atob`)
@@ -185,3 +183,8 @@ plugins (所有的插件目录)
 - 需要预先定义好 `rules` 变量。
 - 需要预先定义好 `log` 函数。
 - 记得遵守开源协议。
+
+## 🎉 鸣谢
+
+- 感谢 [Tarnhelm](https://tarnhelm.project.ac.cn/) 提供的规则文件，为 pURLfy 提供了很多灵感
+- 感谢 GreasyFork 上的 [这个脚本](https://greasyfork.org/scripts/412612)，为 pURLfy 提供了一些规则
