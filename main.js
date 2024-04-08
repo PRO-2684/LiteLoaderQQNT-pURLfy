@@ -36,6 +36,7 @@ function loadRules() { // Load rules from `rules.json`
 
 // === pURLfy CORE start ===
 
+const maxIter = 5; // Maximum iterations for purifying a URL
 const decoders = {
     "url": decodeURIComponent,
     "base64": atob,
@@ -102,142 +103,143 @@ function matchRule(parts, currentRules) { // Recursively match the longest rule 
     return [matchedRule, maxMatchedParts];
 }
 
-async function purifyURL(url) { // Purify the given URL based on `rules`
-    if (!url.startsWith("http")) { // Not a valid URL
-        return url;
-    }
-    let urlObj;
-    try {
-        urlObj = new URL(url);
-    } catch (e) {
-        log(`Error parsing URL ${url}:`, e);
-        return url;
-    }
-    const protocol = urlObj.protocol;
-    if (protocol !== "http:" && protocol !== "https:") { // Not a valid HTTP URL
-        return url;
-    }
-    const hostAndPath = urlObj.host + urlObj.pathname;
-    const parts = hostAndPath.split("/").filter(part => part !== "");
-    const rule = matchRule(parts, rules)[0];
-    if (!rule) { // No matching rule found
-        log(`No matching rule found for ${url}.`);
-        return url;
-    }
-    log(`Matching rule for ${url}: ${rule.description} by ${rule.author}`);
-    const mode = rule.mode;
-    const paramsCntBefore = urlObj.searchParams.size
-    switch (mode) {
-        case "white": { // Whitelist mode
-            const newParams = new URLSearchParams();
-            for (const param of rule.params) {
-                if (urlObj.searchParams.has(param)) {
-                    newParams.set(param, urlObj.searchParams.get(param));
+function divide() {
+    log("=".repeat(20));
+}
+
+async function purifyURL(originalUrl) { // Purify the given URL based on `rules`
+    let shallContinue = true;
+    let url = originalUrl;
+    let firstRule = null;
+    let iteration = 0;
+    divide();
+    log("Purifying URL:", url);
+    while (shallContinue && iteration++ < maxIter) {
+        const logi = log.bind(console, `[#${iteration}]`);
+        let urlObj;
+        if (URL.canParse(url)) {
+            urlObj = new URL(url);
+        } else {
+            logi(`Cannot parse URL ${url}`);
+            return url;
+        }
+        const protocol = urlObj.protocol;
+        if (protocol !== "http:" && protocol !== "https:") { // Not a valid HTTP URL
+            logi(`Not a HTTP URL: ${url}`);
+            return url;
+        }
+        const hostAndPath = urlObj.host + urlObj.pathname;
+        const parts = hostAndPath.split("/").filter(part => part !== "");
+        const rule = matchRule(parts, rules)[0];
+        if (!rule) { // No matching rule found
+            logi(`No matching rule found for ${url}.`);
+            return url;
+        }
+        firstRule ??= rule;
+        logi(`Matching rule: ${rule.description} by ${rule.author}`);
+        const mode = rule.mode;
+        const paramsCntBefore = urlObj.searchParams.size;
+        shallContinue = false;
+        switch (mode) { // Purifies `urlObj` based on the rule
+            case "white": { // Whitelist mode
+                const newParams = new URLSearchParams();
+                for (const param of rule.params) {
+                    if (urlObj.searchParams.has(param)) {
+                        newParams.set(param, urlObj.searchParams.get(param));
+                    }
                 }
+                urlObj.search = newParams.toString();
+                break;
             }
-            urlObj.search = newParams.toString();
-            break;
-        }
-        case "black": { // Blacklist mode
-            for (const param of rule.params) {
-                urlObj.searchParams.delete(param);
+            case "black": { // Blacklist mode
+                for (const param of rule.params) {
+                    urlObj.searchParams.delete(param);
+                }
+                break;
             }
-            break;
-        }
-        case "regex": { // Regex mode
-            log("Regex mode not implemented yet");
-            break;
-        }
-        case "param": { // Specific param mode
-            // Decode given parameter to be used as a new URL
-            let paramValue = null;
-            for (const param of rule.params) { // Find the first available parameter value
-                if (urlObj.searchParams.has(param)) {
-                    paramValue = urlObj.searchParams.get(param);
+            case "regex": { // Regex mode
+                logi("Regex mode not implemented yet");
+                break;
+            }
+            case "param": { // Specific param mode
+                // Decode given parameter to be used as a new URL
+                let paramValue = null;
+                for (const param of rule.params) { // Find the first available parameter value
+                    if (urlObj.searchParams.has(param)) {
+                        paramValue = urlObj.searchParams.get(param);
+                        break;
+                    }
+                }
+                if (!paramValue) {
+                    logi("Parameter(s) not found:", rule.params.join(", "));
                     break;
                 }
-            }
-            if (!paramValue) {
-                log("Parameter(s) not found:", rule.params.join(", "));
-                break;
-            }
-            let dest = paramValue;
-            for (const name of rule.decode) {
-                const decoder = decoders[name] ?? (s => s);
-                dest = decoder(dest);
-            }
-            log(`Decoded URL: ${dest}`);
-            if (rule.recursive ?? true) { // Recursively purify the decoded URL, default to true
-                log("Recursive purifying... {");
-                dest = (await purifyURL(dest)).url;
-                log("} Recursive purifying finished.");
-            }
-            urlObj = new URL(dest);
-            break;
-        }
-        case "redirect": { // Redirect mode
-            let r = null;
-            try {
-                r = await fetch(url, {
-                    method: "HEAD",
-                    redirect: "manual"
-                });
-            } catch (e) {
-                log("Error fetching URL:", e);
-                break;
-            }
-            if ((r.status === 301 || r.status === 302) && r.headers.has("location")) {
-                let dest = r.headers.get("location");
-                if (rule.recursive ?? true) { // Recursively purify the redirected URL, default to true
-                    log("Recursive purifying... {");
-                    dest = (await purifyURL(dest)).url;
-                    log("} Recursive purifying finished.");
+                let dest = paramValue;
+                for (const name of rule.decode) {
+                    const decoder = decoders[name] ?? (s => s);
+                    dest = decoder(dest);
                 }
                 urlObj = new URL(dest);
-            }
-            break;
-        }
-        case "lambda": {
-            if (!lambdaEnabled) {
-                log("Lambda mode is disabled.");
+                shallContinue = rule.continue ?? true;
                 break;
             }
-            try {
-                const lambda = new Function("url", rule.lambda);
-                urlObj = lambda(urlObj);
-            } catch (e) {
-                log("Error executing lambda:", e);
+            case "redirect": { // Redirect mode
+                let r = null;
+                try {
+                    r = await fetch(url, {
+                        method: "HEAD",
+                        redirect: "manual"
+                    });
+                } catch (e) {
+                    logi("Error fetching URL:", e);
+                    break;
+                }
+                if ((r.status === 301 || r.status === 302) && r.headers.has("location")) {
+                    let dest = r.headers.get("location");
+                    urlObj = new URL(dest);
+                    shallContinue = rule.continue ?? true;
+                }
+                break;
             }
-            if (rule.recursive ?? true) { // Recursively purify the decoded URL, default to true
-                log("Recursive purifying... {");
-                urlObj = new URL((await purifyURL(urlObj.href)).url);
-                log("} Recursive purifying finished.");
+            case "lambda": {
+                if (!lambdaEnabled) {
+                    logi("Lambda mode is disabled.");
+                    break;
+                }
+                try {
+                    const lambda = new Function("url", rule.lambda);
+                    urlObj = lambda(urlObj);
+                } catch (e) {
+                    logi("Error executing lambda:", e);
+                }
+                shallContinue = rule.continue ?? true;
+                break;
             }
-            break;
+            default: {
+                logi("Invalid mode:", mode);
+                break;
+            }
         }
-        default: {
-            log("Invalid mode:", mode);
-            break;
-        }
+        logi("Purified URL:", urlObj.href);
+        const paramsCntAfter = urlObj.searchParams.size;
+        statistics.param += (["white", "black"].includes(mode)) ? (paramsCntBefore - paramsCntAfter) : 0;
+        statistics.decoded += (mode === "param") ? 1 : 0;
+        statistics.char += Math.max(url.length - urlObj.href.length, 0); // Prevent negative char count
+        url = urlObj.href;
     }
-    const newURL = urlObj.href;
-    const paramsCntAfter = urlObj.searchParams.size;
-    if (newURL === url) { // No changes made
-        log("No changes made to URL:", url);
+    if (originalUrl === url) { // No changes made
+        log("No changes made.");
         return {
             url: url,
-            rule: `* ${rule.description} by ${rule.author}`
+            rule: `* ${firstRule.description} by ${firstRule.author}`
         };
     }
-    log(`Purified URL:`, newURL);
+    divide();
     statistics.url++;
-    statistics.param += (["white", "black"].includes(mode)) ? (paramsCntBefore - paramsCntAfter) : 0;
-    statistics.decoded += (mode === "param") ? 1 : 0;
-    statistics.char += Math.max(url.length - newURL.length, 0); // Prevent negative char count
     notifyStatisticsChange();
     return {
-        url: newURL,
-        rule: `${rule.description} by ${rule.author}`
+        url: url,
+        rule: `${firstRule.description} by ${firstRule.author}`
     };
 }
 
