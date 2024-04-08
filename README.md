@@ -142,7 +142,7 @@ plugins (所有的插件目录)
     "params": ["<param 1>", "<param 2>", ...], // 仅在 `white`/`black` / `param` 模式下有效
     "decode": ["<decode_func 1>", "<decode_func 2>"], // 仅在 `param` 模式下有效
     "lambda": "<lambda>", // 仅在 `lambda` 模式下有效
-    "recursive": Boolean, // 仅在 `param`, `lambda` 模式下有效
+    "recursive": Boolean, // 仅在 `param`, `redirect`, `lambda` 模式下有效
     "author": "<作者>"
 }
 ```
@@ -152,6 +152,7 @@ plugins (所有的插件目录)
     - `black`: [黑名单](#黑名单模式)
     - ~~`regex`: [正则表达式](#正则表达式)~~ (暂未实现)
     - `param`: [取特定参数](#取特定参数)
+    - `redirect`: [重定向](#重定向)
     - `lambda`: [匿名函数](#匿名函数)
 - `<param n>`: 参数名
 - `<decode_func n>`: 取特定参数模式下用到的解码函数，按序调用。详见 [取特定参数](#取特定参数)。
@@ -181,6 +182,10 @@ plugins (所有的插件目录)
 
 - 再次执行净化时所使用的规则亦会计入统计数据，因此一个网址可能会被多次计算
 - `净化 - 匹配` 中显示的规则为首条使用的规则。例如 `rule a` 是 "取特定参数" 规则，它得到的 URL 结果再次匹配了 `rule b`，则 `净化 - 匹配` 中显示的规则为 `rule a`
+
+### 重定向
+
+重定向模式下，pURLfy 会向匹配到的网址发起 HEAD 请求，若返回的状态码为 3xx，则会将重定向后的网址作为新的 URL。若 `recursive` 未被设置为 `false`，则将再次净化新的 URL。
 
 ### 匿名函数
 

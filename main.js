@@ -51,6 +51,8 @@ function validRule(rule) { // Check if the given rule is valid
             return false; // Not implemented yet
         case "param":
             return Array.isArray(rule.params) && Array.isArray(rule.decode);
+        case "redirect":
+            return true;
         case "lambda":
             return lambdaEnabled && typeof rule.lambda === "string";
         default:
@@ -100,7 +102,7 @@ function matchRule(parts, currentRules) { // Recursively match the longest rule 
     return [matchedRule, maxMatchedParts];
 }
 
-function purifyURL(url) { // Purify the given URL based on `rules`
+async function purifyURL(url) { // Purify the given URL based on `rules`
     if (!url.startsWith("http")) { // Not a valid URL
         return url;
     }
@@ -167,10 +169,32 @@ function purifyURL(url) { // Purify the given URL based on `rules`
             log(`Decoded URL: ${dest}`);
             if (rule.recursive ?? true) { // Recursively purify the decoded URL, default to true
                 log("Recursive purifying... {");
-                dest = purifyURL(dest).url;
+                dest = (await purifyURL(dest)).url;
                 log("} Recursive purifying finished.");
             }
             urlObj = new URL(dest);
+            break;
+        }
+        case "redirect": { // Redirect mode
+            let r = null;
+            try {
+                r = await fetch(url, {
+                    method: "HEAD",
+                    redirect: "manual"
+                });
+            } catch (e) {
+                log("Error fetching URL:", e);
+                break;
+            }
+            if ((r.status === 301 || r.status === 302) && r.headers.has("location")) {
+                let dest = r.headers.get("location");
+                if (rule.recursive ?? true) { // Recursively purify the redirected URL, default to true
+                    log("Recursive purifying... {");
+                    dest = (await purifyURL(dest)).url;
+                    log("} Recursive purifying finished.");
+                }
+                urlObj = new URL(dest);
+            }
             break;
         }
         case "lambda": {
@@ -186,7 +210,7 @@ function purifyURL(url) { // Purify the given URL based on `rules`
             }
             if (rule.recursive ?? true) { // Recursively purify the decoded URL, default to true
                 log("Recursive purifying... {");
-                urlObj = new URL(purifyURL(urlObj.href).url);
+                urlObj = new URL((await purifyURL(urlObj.href)).url);
                 log("} Recursive purifying finished.");
             }
             break;
@@ -277,14 +301,14 @@ ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
         lambdaEnabled: lambdaEnabled
     };
 });
-ipcMain.handle("LiteLoader.purlfy.purify", (event, url) => {
-    return purifyURL(url);
+ipcMain.handle("LiteLoader.purlfy.purify", async (event, url) => {
+    return await purifyURL(url);
 });
 
 // Hooks
 const originalOpen = shell.openExternal;
-shell.openExternal = function (url, options) {
-    return originalOpen(tempDisable ? url : purifyURL(url).url, options);
+shell.openExternal = async function (url, options) {
+    return originalOpen(tempDisable ? url : (await purifyURL(url)).url, options);
 };
 
 // Cleanup - Save statistics

@@ -24,6 +24,11 @@
 			"author": "OldPanda"
 		}
 	},
+	"b23.tv": {
+		"description": "哔哩哔哩短链",
+		"mode": "redirect",
+		"author": "PRO-2684"
+	},
 	"c.pc.qq.com": {
 		"description": "QQ 外链",
 		"mode": "param",
