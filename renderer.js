@@ -6,14 +6,20 @@ async function onSettingWindowCreated(view) {
     const logo = $(".logo");
     logo.src = `local:///${pluginPath}/icons/icon.svg`;
     const input = $("#purlfy-clean-input");
+    const outputUrl = $("#purlfy-clean-url");
+    const outputRule = $("#purlfy-clean-rule");
     input.addEventListener("keyup", async (event) => {
         if (event.key === "Enter") {
             if (!input.value) {
                 input.value = input.getAttribute("placeholder");
             }
+            input.toggleAttribute("disabled", true);
+            input.parentElement.classList.toggle("is-loading", true);
             const result = await purlfy.purify(input.value);
-            $("#purlfy-clean-url").value = result.url;
-            $("#purlfy-clean-rule").value = result.rule;
+            input.parentElement.classList.toggle("is-loading", false);
+            input.toggleAttribute("disabled", false);
+            outputUrl.value = result.url;
+            outputRule.value = result.rule;
         }
     });
     $("#purlfy-reload-rules").addEventListener("click", purlfy.reloadRules);
