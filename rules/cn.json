@@ -18,9 +18,6 @@
 			"params": [
 				"target"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
@@ -36,48 +33,46 @@
 			"pfurl",
 			"url"
 		],
-		"decode": [
-			"url"
-		],
 		"author": "OldPanda"
 	},
 	"cloud.tencent.com/": {
-		"developer/tools/blog-entry": {
-			"description": "腾讯云外链",
-			"mode": "param",
-			"params": [
-				"target"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "OldPanda"
+		"developer/": {
+			"tools/": {
+				"blog-entry": {
+					"description": "腾讯云外链",
+					"mode": "param",
+					"params": [
+						"target"
+					],
+					"author": "OldPanda"
+				}
+			}
 		}
 	},
 	"developers.weixin.qq.com/": {
-		"community/middlepage/href": {
-			"description": "微信开放社区外链",
-			"mode": "param",
-			"params": [
-				"href"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "OldPanda"
+		"community/": {
+			"middlepage/": {
+				"href": {
+					"description": "微信开放社区外链",
+					"mode": "param",
+					"params": [
+						"href"
+					],
+					"author": "OldPanda"
+				}
+			}
 		}
 	},
 	"docs.qq.com/": {
-		"scenario/link.html": {
-			"description": "QQ 文档外链",
-			"mode": "param",
-			"params": [
-				"url"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "OldPanda"
+		"scenario/": {
+			"link.html": {
+				"description": "QQ 文档外链",
+				"mode": "param",
+				"params": [
+					"url"
+				],
+				"author": "OldPanda"
+			}
 		}
 	},
 	"game.bilibili.com/": {
@@ -85,9 +80,6 @@
 			"description": "哔哩哔哩游戏中心外链",
 			"mode": "param",
 			"params": [
-				"url"
-			],
-			"decode": [
 				"url"
 			],
 			"author": "OldPanda"
@@ -100,21 +92,20 @@
 			"params": [
 				"target"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "PRO-2684"
 		}
 	},
 	"h5.qzone.qq.com/": {
-		"ugc/share": {
-			"description": "h5 QQ 空间",
-			"mode": "white",
-			"params": [
-				"sharetag",
-				"appid"
-			],
-			"author": "PRO-2684"
+		"ugc/": {
+			"share": {
+				"description": "h5 QQ 空间",
+				"mode": "white",
+				"params": [
+					"sharetag",
+					"appid"
+				],
+				"author": "PRO-2684"
+			}
 		}
 	},
 	"k.youshop10.com": {
@@ -140,9 +131,6 @@
 		"params": [
 			"target"
 		],
-		"decode": [
-			"url"
-		],
 		"author": "OldPanda"
 	},
 	"link.juejin.cn": {
@@ -150,9 +138,6 @@
 		"mode": "param",
 		"params": [
 			"target"
-		],
-		"decode": [
-			"url"
 		],
 		"author": "PRO-2684"
 	},
@@ -163,9 +148,6 @@
 			"params": [
 				"goto"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
@@ -173,9 +155,6 @@
 		"description": "标志情报局外链",
 		"mode": "param",
 		"params": [
-			"url"
-		],
-		"decode": [
 			"url"
 		],
 		"author": "OldPanda"
@@ -186,9 +165,6 @@
 		"params": [
 			"redirect"
 		],
-		"decode": [
-			"url"
-		],
 		"author": "OldPanda"
 	},
 	"link.zhihu.com": {
@@ -196,9 +172,6 @@
 		"mode": "param",
 		"params": [
 			"target"
-		],
-		"decode": [
-			"url"
 		],
 		"author": "PRO-2684"
 	},
@@ -208,9 +181,6 @@
 			"mode": "param",
 			"params": [
 				"to"
-			],
-			"decode": [
-				"url"
 			],
 			"author": "PRO-2684"
 		}
@@ -236,16 +206,15 @@
 		"author": "returnL、青墨"
 	},
 	"mail.qq.com/": {
-		"cgi-bin/readtemplate": {
-			"description": "QQ 邮箱外链",
-			"mode": "param",
-			"params": [
-				"gourl"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "OldPanda"
+		"cgi-bin/": {
+			"readtemplate": {
+				"description": "QQ 邮箱外链",
+				"mode": "param",
+				"params": [
+					"gourl"
+				],
+				"author": "OldPanda"
+			}
 		}
 	},
 	"mall.bilibili.com/": {
@@ -275,21 +244,25 @@
 		}
 	},
 	"music.163.com/": {
-		"#/song": {
-			"description": "网易云音乐",
-			"mode": "white",
-			"params": [
-				"id"
-			],
-			"author": "lz233"
+		"#/": {
+			"song": {
+				"description": "网易云音乐",
+				"mode": "white",
+				"params": [
+					"id"
+				],
+				"author": "lz233"
+			}
 		}
 	},
 	"music.apple.com/": {
-		"jp/album": {
-			"description": "Apple Music",
-			"mode": "white",
-			"params": [],
-			"author": "mitian233"
+		"jp/": {
+			"album": {
+				"description": "Apple Music",
+				"mode": "white",
+				"params": [],
+				"author": "mitian233"
+			}
 		}
 	},
 	"open.spotify.com/": {
@@ -310,13 +283,17 @@
 		"author": "omg-xtao"
 	},
 	"qun.qq.com/": {
-		"qqweb/qunpro/share": {
-			"description": "QQ 频道",
-			"mode": "white",
-			"params": [
-				"inviteCode"
-			],
-			"author": "青墨"
+		"qqweb/": {
+			"qunpro/": {
+				"share": {
+					"description": "QQ 频道",
+					"mode": "white",
+					"params": [
+						"inviteCode"
+					],
+					"author": "青墨"
+				}
+			}
 		}
 	},
 	"ref.gamer.com.tw/": {
@@ -326,36 +303,31 @@
 			"params": [
 				"url"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
 	"security.feishu.cn/": {
-		"link/safety": {
-			"description": "飞书外链",
-			"mode": "param",
-			"params": [
-				"target"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "PRO-2684"
+		"link/": {
+			"safety": {
+				"description": "飞书外链",
+				"mode": "param",
+				"params": [
+					"target"
+				],
+				"author": "PRO-2684"
+			}
 		}
 	},
 	"shimo.im/": {
-		"outlink/black": {
-			"description": "石墨文档外链",
-			"mode": "param",
-			"params": [
-				"url"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "OldPanda"
+		"outlink/": {
+			"black": {
+				"description": "石墨文档外链",
+				"mode": "param",
+				"params": [
+					"url"
+				],
+				"author": "OldPanda"
+			}
 		}
 	},
 	"space.bilibili.com": {
@@ -370,9 +342,6 @@
 			"mode": "param",
 			"params": [
 				"target"
-			],
-			"decode": [
-				"url"
 			],
 			"author": "OldPanda"
 		}
@@ -393,9 +362,6 @@
 				"url",
 				"u"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
@@ -412,23 +378,21 @@
 			"params": [
 				"url"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
 	"tieba.baidu.com/": {
-		"mo/q/checkurl": {
-			"description": "百度贴吧外链",
-			"mode": "param",
-			"params": [
-				"url"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "OldPanda"
+		"mo/": {
+			"q/": {
+				"checkurl": {
+					"description": "百度贴吧外链",
+					"mode": "param",
+					"params": [
+						"url"
+					],
+					"author": "OldPanda"
+				}
+			}
 		},
 		"p": {
 			"description": "百度贴吧",
@@ -444,9 +408,6 @@
 			"params": [
 				"u",
 				"toasturl"
-			],
-			"decode": [
-				"url"
 			],
 			"author": "PRO-2684"
 		}
@@ -468,9 +429,6 @@
 			"params": [
 				"url"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
@@ -481,20 +439,21 @@
 			"params": [
 				"url"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
 	"www.bilibili.com/": {
-		"h5/lottery/result": {
-			"description": "直播预约分享",
-			"mode": "black",
-			"params": [
-				"i_transfer_match"
-			],
-			"author": "青墨"
+		"h5/": {
+			"lottery/": {
+				"result": {
+					"description": "直播预约分享",
+					"mode": "black",
+					"params": [
+						"i_transfer_match"
+					],
+					"author": "青墨"
+				}
+			}
 		},
 		"video": {
 			"description": "哔哩哔哩视频",
@@ -510,9 +469,6 @@
 			"params": [
 				"url"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
@@ -521,9 +477,6 @@
 			"description": "酷安外链",
 			"mode": "param",
 			"params": [
-				"url"
-			],
-			"decode": [
 				"url"
 			],
 			"author": "OldPanda"
@@ -535,9 +488,6 @@
 			"mode": "param",
 			"params": [
 				"remoteUrl"
-			],
-			"decode": [
-				"url"
 			],
 			"author": "PRO-2684"
 		}
@@ -555,19 +505,18 @@
 		"author": "MateChan"
 	},
 	"www.douban.com/": {
-		"group/topic": {
-			"description": "豆瓣小组",
-			"mode": "white",
-			"params": [],
-			"author": "ChellyL"
+		"group/": {
+			"topic": {
+				"description": "豆瓣小组",
+				"mode": "white",
+				"params": [],
+				"author": "ChellyL"
+			}
 		},
 		"link2": {
 			"description": "豆瓣外链",
 			"mode": "param",
 			"params": [
-				"url"
-			],
-			"decode": [
 				"url"
 			],
 			"author": "OldPanda"
@@ -590,9 +539,6 @@
 			"params": [
 				"url"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
@@ -601,9 +547,6 @@
 			"description": "简书外链",
 			"mode": "param",
 			"params": [
-				"url"
-			],
-			"decode": [
 				"url"
 			],
 			"author": "OldPanda"
@@ -616,23 +559,19 @@
 			"params": [
 				"url"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
 	"www.linkedin.com/": {
-		"safety/go": {
-			"description": "LinkedIn 外链",
-			"mode": "param",
-			"params": [
-				"url"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "OldPanda"
+		"safety/": {
+			"go": {
+				"description": "LinkedIn 外链",
+				"mode": "param",
+				"params": [
+					"url"
+				],
+				"author": "OldPanda"
+			}
 		}
 	},
 	"www.mcbbs.net/": {
@@ -641,9 +580,6 @@
 			"mode": "param",
 			"params": [
 				"target"
-			],
-			"decode": [
-				"url"
 			],
 			"author": "PRO-2684"
 		}
@@ -654,9 +590,6 @@
 			"mode": "param",
 			"params": [
 				"remoteUrl"
-			],
-			"decode": [
-				"url"
 			],
 			"author": "PRO-2684"
 		}
@@ -674,36 +607,31 @@
 			"params": [
 				"to"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
 	"www.oschina.net/": {
-		"action/GoToLink": {
-			"description": "OSCHINA 外链",
-			"mode": "param",
-			"params": [
-				"url"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "OldPanda"
+		"action/": {
+			"GoToLink": {
+				"description": "OSCHINA 外链",
+				"mode": "param",
+				"params": [
+					"url"
+				],
+				"author": "OldPanda"
+			}
 		}
 	},
 	"www.qcc.com/": {
-		"web/transfer-link": {
-			"description": "企查查外链",
-			"mode": "param",
-			"params": [
-				"link"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "OldPanda"
+		"web/": {
+			"transfer-link": {
+				"description": "企查查外链",
+				"mode": "param",
+				"params": [
+					"link"
+				],
+				"author": "OldPanda"
+			}
 		}
 	},
 	"www.reddit.com/": {
@@ -715,14 +643,16 @@
 		}
 	},
 	"www.right.com.cn/": {
-		"forum/forum.php": {
-			"description": "恩山无线论坛",
-			"mode": "black",
-			"params": [
-				"authorid",
-				"extra"
-			],
-			"author": "ous50 "
+		"forum/": {
+			"forum.php": {
+				"description": "恩山无线论坛",
+				"mode": "black",
+				"params": [
+					"authorid",
+					"extra"
+				],
+				"author": "ous50"
+			}
 		}
 	},
 	"www.tianyancha.com/": {
@@ -731,9 +661,6 @@
 			"mode": "param",
 			"params": [
 				"target"
-			],
-			"decode": [
-				"url"
 			],
 			"author": "OldPanda"
 		}
@@ -745,18 +672,17 @@
 			"params": [
 				"url"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "PRO-2684"
 		}
 	},
 	"www.xiaohongshu.com/": {
-		"discovery/item": {
-			"description": "小红书",
-			"mode": "white",
-			"params": [],
-			"author": "RtYkk"
+		"discovery/": {
+			"item": {
+				"description": "小红书",
+				"mode": "white",
+				"params": [],
+				"author": "RtYkk"
+			}
 		}
 	},
 	"www.youtube.com/": {
@@ -765,9 +691,6 @@
 			"mode": "param",
 			"params": [
 				"q"
-			],
-			"decode": [
-				"url"
 			],
 			"author": "OldPanda"
 		},
@@ -781,16 +704,15 @@
 		}
 	},
 	"www.yuque.com/": {
-		"r/goto": {
-			"description": "语雀外链",
-			"mode": "param",
-			"params": [
-				"url"
-			],
-			"decode": [
-				"url"
-			],
-			"author": "OldPanda"
+		"r/": {
+			"goto": {
+				"description": "语雀外链",
+				"mode": "param",
+				"params": [
+					"url"
+				],
+				"author": "OldPanda"
+			}
 		}
 	},
 	"www.zhihu.com": {
@@ -806,20 +728,19 @@
 			"params": [
 				"target"
 			],
-			"decode": [
-				"url"
-			],
 			"author": "OldPanda"
 		}
 	},
 	"y.music.163.com/": {
-		"m/song": {
-			"description": "网易云音乐",
-			"mode": "white",
-			"params": [
-				"id"
-			],
-			"author": "lz233"
+		"m/": {
+			"song": {
+				"description": "网易云音乐",
+				"mode": "white",
+				"params": [
+					"id"
+				],
+				"author": "lz233"
+			}
 		}
 	},
 	"youtu.be": {
