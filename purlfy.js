@@ -5,7 +5,7 @@ class Purlfy extends EventTarget {
     #log = console.log.bind(console, "\x1b[38;2;220;20;60m[pURLfy]\x1b[0m");
     #paramDecoders = {
         "url": decodeURIComponent,
-        "base64": atob,
+        "base64": s => decodeURIComponent(escape(atob(s))),
     };
     #statistics = {
         url: 0,

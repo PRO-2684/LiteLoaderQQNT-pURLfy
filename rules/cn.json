@@ -159,6 +159,14 @@
 		],
 		"author": "OldPanda"
 	},
+	"link.mcmod.cn/": {
+		"target": {
+			"description": "MC 百科外链",
+			"mode": "lambda",
+			"lambda": "const parts = url.pathname.split('/'); const newParts = parts[parts.length - 1].split('@'); return new URL(newParts.map(b64Decode).join('?'));",
+			"author": "PRO-2684"
+		}
+	},
 	"link.uisdc.com": {
 		"description": "优设网外链",
 		"mode": "param",
