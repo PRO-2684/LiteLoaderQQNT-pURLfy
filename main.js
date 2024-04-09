@@ -33,8 +33,8 @@ const purifier = new Purlfy({
     log: log
 });
 
-purifier.addEventListener("statisticschange", (e) => {
-    notifyStatisticsChange(e.detail);
+purifier.addEventListener("statisticschange", () => {
+    notifyStatisticsChange(purifier.getStatistics());
 });
 
 function loadRules() { // Load rules from `rules.json`
