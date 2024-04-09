@@ -63,7 +63,7 @@ function notifyStatisticsChange(statistics) { // Notify the setting window about
 function notifyLambdaEnabledChange() { // Notify the setting window about lambda enabled change
     if (settingWindow) {
         log("Notify lambda enabled change:", purifier.lambdaEnabled);
-        settingWindow.webContents.send("LiteLoader.purlfy.lambdaEnabledChange", initLambdaEnabled);
+        settingWindow.webContents.send("LiteLoader.purlfy.lambdaEnabledChange", purifier.lambdaEnabled);
     }
 }
 
@@ -83,17 +83,11 @@ ipcMain.on("LiteLoader.purlfy.reloadRules", () => {
 });
 ipcMain.on("LiteLoader.purlfy.setLambdaEnabled", (event, value) => {
     log("setLambdaEnabled:", value);
-    if (purifier.lambdaEnabled === value) {
-        return;
-    }
     purifier.lambdaEnabled = value;
     notifyLambdaEnabledChange();
 });
 ipcMain.on("LiteLoader.purlfy.setTempDisable", (event, value) => {
     log("setTempDisable:", value);
-    if (tempDisable === value) {
-        return;
-    }
     tempDisable = value;
     notifyTempDisableChange();
 });
