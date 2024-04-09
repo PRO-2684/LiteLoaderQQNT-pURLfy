@@ -176,6 +176,10 @@ class Purlfy extends EventTarget {
                     break;
                 }
                 case "redirect": { // Redirect mode
+                    if (!this.redirectEnabled) {
+                        logi("Redirect mode is disabled.");
+                        break;
+                    }
                     let r = null;
                     try {
                         r = await fetch(url, {
@@ -195,7 +199,7 @@ class Purlfy extends EventTarget {
                     break;
                 }
                 case "lambda": {
-                    if (!lambdaEnabled) {
+                    if (!this.lambdaEnabled) {
                         logi("Lambda mode is disabled.");
                         break;
                     }
