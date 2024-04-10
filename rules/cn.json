@@ -121,7 +121,6 @@
 			"params": [
 				"target"
 			],
-			"decode": [],
 			"author": "PRO-2684"
 		}
 	},
@@ -163,7 +162,7 @@
 		"target": {
 			"description": "MC 百科外链",
 			"mode": "lambda",
-			"lambda": "const parts = url.pathname.split('/'); const newParts = parts[parts.length - 1].split('@'); return new URL(newParts.map(b64Decode).join('?'));",
+			"lambda": "const parts = url.pathname.split('/'); const newParts = parts[parts.length - 1].split('@'); return new URL(newParts.map(s => decodeURIComponent(escape(atob(s)))).join('?'));",
 			"author": "PRO-2684"
 		}
 	},
@@ -468,6 +467,17 @@
 			"mode": "white",
 			"params": [],
 			"author": "PRO-2684"
+		}
+	},
+	"www.bing.com/": {
+		"ck/": {
+			"a": {
+				"description": "Bing 搜索结果",
+				"mode": "param",
+				"params": ["u"],
+				"decode": ["slice:2", "base64"],
+				"author": "PRO-2684"
+			}
 		}
 	},
 	"www.chinaz.com/": {
