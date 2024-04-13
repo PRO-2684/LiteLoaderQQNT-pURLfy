@@ -157,7 +157,8 @@ function onBrowserWindowCreated(window) {
                 const elements = payload[0]?.msgElements;
                 if (elements?.length) {
                     for (const element of elements) {
-                        if (element.elementType !== 1) {
+                        if (element.elementType !== 1 || element.textElement.atType !== 0) {
+                            // Do not purify non-text elements or at elements
                             continue;
                         }
                         const textEl = element.textElement;
