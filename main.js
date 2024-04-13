@@ -157,13 +157,12 @@ function onBrowserWindowCreated(window) {
                 const elements = payload[0]?.msgElements;
                 if (elements?.length) {
                     for (const element of elements) {
-                        if (!element.elementType === 1) {
+                        if (element.elementType !== 1) {
                             continue;
                         }
                         const textEl = element.textElement;
                         textEl.content = await purifyText(textEl.content);
                     }
-                    payload[0].msgElements = elements;
                 }
                 args[3][1] = [command, ...payload];
             }
