@@ -7,12 +7,13 @@ let tempDisable = false;
 
 const slug = "purlfy";
 const name = LiteLoader.plugins[slug].manifest.name;
+const urlPattern = /https?:\/\/.(?:www\.)?[-a-zA-Z0-9@%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?!&\/\/=]*)/gm;
 const isDebug = process.argv.includes(`--${slug}-debug`);
 const log = isDebug ? console.log.bind(console, "\x1b[38;2;220;20;60m%s\x1b[0m", `[${name}]`) : () => { };
 
 const pluginPath = LiteLoader.plugins[slug].path.plugin;
 const rulesPath = path.join(pluginPath, "rules");
-const data = LiteLoader.api.config.get(slug, {
+const defaultConfig = {
     statistics: {
         url: 0,
         param: 0,
@@ -20,16 +21,20 @@ const data = LiteLoader.api.config.get(slug, {
         redirected: 0,
         char: 0
     },
+    hooks: {
+        "shell.openExternal": true,
+        "sendMessage": false
+    },
     lambdaEnabled: false,
-});
-let { statistics: initStatistics, lambdaEnabled: initLambdaEnabled } = data;
-log("Statistics loaded:", initStatistics);
+};
+const config = LiteLoader.api.config.get(slug, defaultConfig);
+log("Statistics loaded:", config.statistics);
 
 // pURLfy instance
 const purifier = new Purlfy({
     redirectEnabled: true,
-    lambdaEnabled: initLambdaEnabled,
-    statistics: initStatistics,
+    lambdaEnabled: config.lambdaEnabled,
+    statistics: config.statistics,
     log: log
 });
 
@@ -58,6 +63,7 @@ function notifyStatisticsChange(statistics) { // Notify the setting window about
         log("Notify statistics change");
         settingWindow.webContents.send("LiteLoader.purlfy.statisticsChange", statistics);
     }
+    config.statistics = statistics;
 }
 
 function notifyLambdaEnabledChange() { // Notify the setting window about lambda enabled change
@@ -65,6 +71,7 @@ function notifyLambdaEnabledChange() { // Notify the setting window about lambda
         log("Notify lambda enabled change:", purifier.lambdaEnabled);
         settingWindow.webContents.send("LiteLoader.purlfy.lambdaEnabledChange", purifier.lambdaEnabled);
     }
+    config.lambdaEnabled = purifier.lambdaEnabled;
 }
 
 function notifyTempDisableChange() { // Notify the setting window about temp disable change
@@ -74,13 +81,25 @@ function notifyTempDisableChange() { // Notify the setting window about temp dis
     }
 }
 
+async function purifyText(text) { // Purify URLs in text
+    const urls = text.match(urlPattern);
+    if (urls) {
+        try {
+            for (const url of urls) {
+                text = text.replace(url, (await purifier.purify(url)).url);
+            }
+        } catch (e) {
+            log("Error purifying text:", e);
+        }
+    }
+    return text;
+}
+
 // Load rules
 loadRules();
 
 // IPC handlers
-ipcMain.on("LiteLoader.purlfy.reloadRules", () => {
-    loadRules();
-});
+ipcMain.on("LiteLoader.purlfy.reloadRules", loadRules);
 ipcMain.on("LiteLoader.purlfy.setLambdaEnabled", (event, value) => {
     log("setLambdaEnabled:", value);
     purifier.lambdaEnabled = value;
@@ -110,17 +129,62 @@ ipcMain.handle("LiteLoader.purlfy.purify", async (event, url) => {
 });
 
 // Hooks
-const originalOpen = shell.openExternal;
-shell.openExternal = async function (url, options) {
-    return originalOpen(tempDisable ? url : (await purifier.purify(url)).url, options);
-};
+config.hooks ??= defaultConfig.hooks;
+if (config.hooks["shell.openExternal"]) {
+    const originalOpen = shell.openExternal;
+    shell.openExternal = async function (url, options) {
+        return originalOpen(tempDisable ? url : (await purifier.purify(url)).url, options);
+    };
+}
+function onBrowserWindowCreated(window) {
+    if (!config.hooks.sendMessage) { // No need to hook
+        return;
+    }
+    const events = window.webContents._events;
+    function patch(ipcFunc) { // Adapted from https://github.com/MisaLiu/LiteLoaderQQNT-Pangu/blob/7d1b393319df2f42e7b9b42a9471463b28c04bca/src/hook.ts#L18
+        if (!ipcFunc || typeof ipcFunc !== "function") {
+            log("Invalid ipcFunc:", ipcFunc);
+            return ipcFunc;
+        }
+        async function patched(...args) {
+            const channel = args[2];
+            const data = args[3]?.[1];
+            if (tempDisable || channel.startsWith("LiteLoader.") || !data || !(data instanceof Array)) {
+                return ipcFunc.apply(this, args);
+            }
+            const [command, ...payload] = data;
+            if (command === "nodeIKernelMsgService/sendMsg") {
+                const elements = payload[0]?.msgElements;
+                if (elements?.length) {
+                    for (const element of elements) {
+                        if (!element.elementType === 1) {
+                            continue;
+                        }
+                        const textEl = element.textElement;
+                        textEl.content = await purifyText(textEl.content);
+                    }
+                    payload[0].msgElements = elements;
+                }
+                args[3][1] = [command, ...payload];
+            }
+            return ipcFunc.apply(this, args);
+        }
+        return patched;
+    }
+    if (events["-ipc-message"]?.[0]) {
+        events["-ipc-message"][0] = patch(events["-ipc-message"][0]);
+    } else {
+        events["-ipc-message"] = patch(events["-ipc-message"]);
+    }
+}
 
 // Cleanup - Save statistics
 app.on("will-quit", () => {
     const statistics = purifier.getStatistics();
-    LiteLoader.api.config.set(slug, {
-        statistics: statistics,
-        lambdaEnabled: purifier.lambdaEnabled
-    });
+    LiteLoader.api.config.set(slug, config);
     log("Statistics saved:", statistics);
 });
+
+module.exports = {
+    onBrowserWindowCreated,
+};
