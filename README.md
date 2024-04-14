@@ -11,7 +11,7 @@
 - 手动净化：在插件设置界面中输入链接并回车即可手动净化链接
 - 自动净化
     - 自动净化将要在浏览器打开的 URL 链接 (hook `shell.openExternal`)
-    - 自动净化发送的**文本消息**中的 URL 链接
+    - 自动净化发送的**文本消息**中的 URL 链接 (测试中，若想启用请参照 [使用方法](#-使用方法))
 - 迭代式净化：支持净化多层嵌套的链接，例如外链中的链接
 - 临时禁用：在插件设置中可以临时禁用插件的净化功能，以便在需要时打开原始链接
 - 统计数据：净化的链接数量、净化的参数数量、解码的网址数量、净化的字符数量
@@ -54,7 +54,7 @@ plugins (所有的插件目录)
 
 ## 🤔 使用方法
 
-打开插件后自动生效。若想手动净化链接，可以在设置界面输入链接后回车。以下是一些测试链接：
+打开插件后自动生效。若想手动净化链接，可以在设置界面输入链接后回车。若想启用测试中的“净化发送的文本消息”，请修改 `config.json` 中 `hooks.sendMessage` 为  `true`。以下是一些测试链接：
 
 - BiliBili 短链: `https://b23.tv/SI6OEcv`
 - 中规中矩的贴吧分享链接: `https://tieba.baidu.com/p/7989575070?share=none&fr=none&see_lz=none&share_from=none&sfc=none&client_type=none&client_version=none&st=none&is_video=none&unique=none`
