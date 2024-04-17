@@ -16,8 +16,9 @@ jobs:
         with:
           fetch-depth: 16 # Ensure we can generate changelogs
 
-      - name: "Get pURLfy core"
+      - name: "Get pURLfy core & rules"
         run: |
+          mkdir -p rules && wget https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy@latest/rules/cn.json -O rules/cn.json
           wget https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy@latest/purlfy.min.js -O purlfy.js
 
       - name: "Zip release files" # Only if the version has been updated
