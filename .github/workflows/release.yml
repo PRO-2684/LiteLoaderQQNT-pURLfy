@@ -18,7 +18,7 @@ jobs:
 
       - name: "Get pURLfy core & rules"
         run: |
-          mkdir -p rules && wget https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy-rules/cn.json -O rules/cn.json
+          mkdir -p rules && wget https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy-rules/cn.min.json -O rules/cn.min.json
           wget https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy@latest/purlfy.min.js -O purlfy.js
 
       - name: "Zip release files" # Only if the version has been updated
