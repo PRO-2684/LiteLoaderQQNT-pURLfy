@@ -1,4 +1,33 @@
 <style>
+    /* 关于 */
+    .purlfy .about setting-item {
+        flex: 1;
+        margin: 0px 10px;
+        border-radius: 8px;
+        text-align: center;
+        background-repeat: no-repeat;
+        background-size: 3em;
+        background-position: center;
+        transition: background 0.2s ease-in-out;
+
+        &:hover {
+            background-size: 2em;
+            background-position: left;
+        }
+    }
+
+    /* 链接 */
+    .purlfy .purlfy-link {
+        cursor: pointer;
+        width: fit-content;
+        margin: auto;
+        transition: color 0.2s ease-in-out;
+
+        &:hover {
+            color: var(--brand_standard);
+        }
+    }
+
     /* Logo */
     .purlfy .logo {
         position: fixed;
@@ -133,6 +162,38 @@
                     <setting-text data-type="secondary">净化时匹配到的规则名与作者</setting-text>
                 </div>
                 <input readonly id="purlfy-clean-rule" type="text" placeholder="Fallback by PRO-2684"></input>
+            </setting-item>
+        </setting-list>
+    </setting-panel>
+</setting-section>
+<setting-section data-title="关于" class="about">
+    <setting-panel>
+        <setting-list data-direction="row">
+            <setting-item id="purlfy-about-version">
+                <div>
+                    <setting-text>版本</setting-text>
+                    <setting-text data-type="secondary">
+                        <span class="purlfy-link" id="purlfy-version"
+                            data-purlfy-url="https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy">NaN</span>
+                    </setting-text>
+                </div>
+            </setting-item>
+            <setting-item id="purlfy-about-author">
+                <div>
+                    <setting-text>作者</setting-text>
+                    <setting-text data-type="secondary">
+                        <span class="purlfy-link" data-purlfy-url="https://github.com/PRO-2684/">PRO-2684</span>
+                    </setting-text>
+                </div>
+            </setting-item>
+            <setting-item id="purlfy-about-issues">
+                <div>
+                    <setting-text>反馈</setting-text>
+                    <setting-text data-type="secondary">
+                        <span class="purlfy-link"
+                            data-purlfy-url="https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/issues">GitHub Issues</span>
+                    </setting-text>
+                </div>
             </setting-item>
         </setting-list>
     </setting-panel>

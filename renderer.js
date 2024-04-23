@@ -3,8 +3,6 @@ const pluginPath = LiteLoader.plugins.purlfy.path.plugin.replace(":\\", "://").r
 async function onSettingWindowCreated(view) {
     const $ = view.querySelector.bind(view);
     view.innerHTML = await (await fetch(`local:///${pluginPath}/settings.html`)).text();
-    const logo = $(".logo");
-    logo.src = `local:///${pluginPath}/icons/icon.svg`;
     const input = $("#purlfy-clean-input");
     const outputUrl = $("#purlfy-clean-url");
     const outputRule = $("#purlfy-clean-rule");
@@ -82,6 +80,28 @@ async function onSettingWindowCreated(view) {
         debugText.removeAttribute("title");
         debugText.textContent = "已启用";
     }
+    const logo = $(".logo");
+    logo.src = `local:///${pluginPath}/icons/icon.svg`;
+    // About - Version
+    $("#purlfy-version").textContent = LiteLoader.plugins.purlfy.manifest.version;
+    // About - Backgroud image
+    ["version", "author", "issues"].forEach(id => {
+        $(`#purlfy-about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
+    });
+    // Links
+    function openURL(e) {
+        e.preventDefault();
+        const url = e.currentTarget.getAttribute("data-purlfy-url");
+        if (url) {
+            LiteLoader.api.openExternal(url);
+        }
+    }
+    view.querySelectorAll(".purlfy-link").forEach(link => {
+        if (!link.hasAttribute("title")) {
+            link.setAttribute("title", link.getAttribute("data-purlfy-url"));
+        }
+        link.addEventListener("click", openURL);
+    });
 }
 
 export {
