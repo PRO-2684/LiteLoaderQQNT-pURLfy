@@ -80,7 +80,7 @@ async function loadRules() { // Load rules
 }
 
 async function update(name) { // Update `name.min.json`, return true if updated
-    const url = `https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy-rules/${name}.min.json`;
+    const url = `https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy-rules@latest/${name}.min.json`;
     const localPath = path.join(rulesPath, `${name}.min.json`);
     const etag = fs.existsSync(localPath) ? config.etags[name] ?? "" : "";
     try {
