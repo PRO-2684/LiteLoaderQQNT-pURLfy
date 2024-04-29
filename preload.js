@@ -1,10 +1,6 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("purlfy", {
-    onUpdateResult: (callback) => ipcRenderer.on(
-        "LiteLoader.purlfy.updateResult",
-        callback
-    ),
     onStatisticsChange: (callback) => ipcRenderer.on(
         "LiteLoader.purlfy.statisticsChange",
         callback
@@ -28,7 +24,7 @@ contextBridge.exposeInMainWorld("purlfy", {
         "LiteLoader.purlfy.setTempDisable",
         tempDisable
     ),
-    updateRules: () => ipcRenderer.send(
+    updateRules: () => ipcRenderer.invoke(
         "LiteLoader.purlfy.updateRules"
     ),
     getInfo: () => ipcRenderer.invoke(

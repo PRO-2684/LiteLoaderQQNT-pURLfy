@@ -27,9 +27,16 @@ const defaultConfig = {
         "sendMessage": false
     },
     lambdaEnabled: false,
-    etags: {}
+    etags: {},
+    rules: {
+        "cn": true,
+        "alternative": false,
+    }
 };
 const config = LiteLoader.api.config.get(slug, defaultConfig);
+for (const key in defaultConfig) { // Fill missing keys
+    config[key] ??= defaultConfig[key];
+}
 log("Statistics loaded:", config.statistics);
 
 // pURLfy instance
@@ -56,6 +63,11 @@ async function loadRules() { // Load rules
     }
     const list = JSON.parse(fs.readFileSync(listPath, "utf8"));
     for (const name of list) {
+        if (config.rules[name] !== true) {
+            log("Rules not enabled:", name);
+            config.rules[name] = false; // Fill missing keys
+            continue;
+        }
         try {
             const rule = JSON.parse(fs.readFileSync(path.join(rulesPath, `${name}.min.json`), "utf8"));
             purifier.importRules(rule);
@@ -64,6 +76,7 @@ async function loadRules() { // Load rules
             log(`Error loading rules ${name}:`, e);
         }
     }
+    return true;
 }
 
 async function update(name) { // Update `name.min.json`, return true if updated
@@ -90,16 +103,14 @@ async function update(name) { // Update `name.min.json`, return true if updated
     }
 }
 
-async function updateRules() { // Update rules, notify true if updated
+async function updateRules() { // Update rules, return true if updated
     let updated = await update("list");
     const list = JSON.parse(fs.readFileSync(listPath, "utf8"));
     for (const name of list) {
         const result = await update(name); // Avoid short-circuiting
         updated ||= result;
     }
-    if (settingWindow) {
-        settingWindow.webContents.send("LiteLoader.purlfy.updateResult", updated);
-    }
+    return updated;
 }
 
 function notifyStatisticsChange(statistics) { // Notify the setting window about statistics change
@@ -154,7 +165,7 @@ ipcMain.on("LiteLoader.purlfy.setTempDisable", (event, value) => {
     tempDisable = value;
     notifyTempDisableChange();
 });
-ipcMain.on("LiteLoader.purlfy.updateRules", updateRules);
+ipcMain.handle("LiteLoader.purlfy.updateRules", updateRules);
 ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
     settingWindow = BrowserWindow.fromWebContents(event.sender);
     log(`Setting window created: #${settingWindow.id}`);

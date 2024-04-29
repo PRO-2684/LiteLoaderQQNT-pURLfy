@@ -20,6 +20,16 @@ async function onSettingWindowCreated(view) {
             outputRule.value = result.rule;
         }
     });
+    async function onUpdateRules() {
+        this.parentElement.classList.toggle("is-loading", true);
+        const r = await purlfy.updateRules();
+        this.textContent = r ? "更新成功" : "暂无更新";
+        setTimeout(() => {
+            this.textContent = "更新规则";
+            this.parentElement.classList.toggle("is-loading", false);
+        }, 2000);
+    }
+    $("#purlfy-update-rules").addEventListener("click", onUpdateRules);
     $("#purlfy-reload-rules").addEventListener("click", purlfy.reloadRules);
 
     // Statistics and switches
