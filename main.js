@@ -11,8 +11,9 @@ const urlPattern = /https?:\/\/.(?:www\.)?[-a-zA-Z0-9@%._\+~#=]{2,256}\.[a-z]{2,
 const isDebug = process.argv.includes(`--${slug}-debug`);
 const log = isDebug ? console.log.bind(console, "\x1b[38;2;220;20;60m%s\x1b[0m", `[${name}]`) : () => { };
 
-const pluginPath = LiteLoader.plugins[slug].path.plugin;
-const rulesPath = path.join(pluginPath, "rules");
+const dataPath = LiteLoader.plugins[slug].path.data;
+const rulesPath = path.join(dataPath, "rules");
+const listPath = path.join(rulesPath, "list.min.json");
 const defaultConfig = {
     statistics: {
         url: 0,
@@ -26,6 +27,7 @@ const defaultConfig = {
         "sendMessage": false
     },
     lambdaEnabled: false,
+    etags: {}
 };
 const config = LiteLoader.api.config.get(slug, defaultConfig);
 log("Statistics loaded:", config.statistics);
@@ -42,19 +44,61 @@ purifier.addEventListener("statisticschange", () => {
     notifyStatisticsChange(purifier.getStatistics());
 });
 
-function loadRules() { // Load rules from `rules.json`
-    try {
-        purifier.clearRules();
-        const files = fs.readdirSync(rulesPath);
-        for (const file of files) {
-            if (file.endsWith(".json")) {
-                const rule = JSON.parse(fs.readFileSync(path.join(rulesPath, file), "utf8"));
-                purifier.importRules(rule);
-                log("Rules file loaded:", file);
-            }
+async function loadRules() { // Load rules
+    purifier.clearRules();
+    if (!fs.existsSync(rulesPath)) {
+        log("Rules path not found, creating...");
+        fs.mkdirSync(rulesPath, { recursive: true });
+    }
+    if (!fs.existsSync(listPath)) {
+        log("Rules list not found, updating rules...");
+        await updateRules(); // Update rules if not exists
+    }
+    const list = JSON.parse(fs.readFileSync(listPath, "utf8"));
+    for (const name of list) {
+        try {
+            const rule = JSON.parse(fs.readFileSync(path.join(rulesPath, `${name}.min.json`), "utf8"));
+            purifier.importRules(rule);
+            log("Rules file loaded:", name);
+        } catch (e) {
+            log(`Error loading rules ${name}:`, e);
         }
+    }
+}
+
+async function update(name) { // Update `name.min.json`, return true if updated
+    const url = `https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy-rules/${name}.min.json`;
+    const localPath = path.join(rulesPath, `${name}.min.json`);
+    const etag = fs.existsSync(localPath) ? config.etags[name] ?? "" : "";
+    try {
+        const response = await fetch(url, { headers: { "If-None-Match": etag } });
+        if (response.status === 200) {
+            fs.writeFileSync(localPath, await response.text(), "utf8");
+            const newEtag = response.headers.get("Etag") ?? etag;
+            config.etags[name] = newEtag;
+            log(`Updated ${name}.min.json, Etag:`, newEtag);
+            return true;
+        } else if (response.status === 304) {
+            log(`${name}.min.json is up-to-date`);
+        } else {
+            log("Unexpected status code:", response.status, response.statusText);
+        }
+        return false;
     } catch (e) {
-        log("Error loading rules:", e);
+        log(`Error updating ${name}.min.json:`, e);
+        return false;
+    }
+}
+
+async function updateRules() { // Update rules, notify true if updated
+    let updated = await update("list");
+    const list = JSON.parse(fs.readFileSync(listPath, "utf8"));
+    for (const name of list) {
+        const result = await update(name); // Avoid short-circuiting
+        updated ||= result;
+    }
+    if (settingWindow) {
+        settingWindow.webContents.send("LiteLoader.purlfy.updateResult", updated);
     }
 }
 
@@ -110,6 +154,7 @@ ipcMain.on("LiteLoader.purlfy.setTempDisable", (event, value) => {
     tempDisable = value;
     notifyTempDisableChange();
 });
+ipcMain.on("LiteLoader.purlfy.updateRules", updateRules);
 ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
     settingWindow = BrowserWindow.fromWebContents(event.sender);
     log(`Setting window created: #${settingWindow.id}`);
