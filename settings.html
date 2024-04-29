@@ -122,19 +122,6 @@
                 </div>
                 <setting-switch id="purlfy-temp-disable"></setting-switch>
             </setting-item>
-        </setting-list>
-    </setting-panel>
-</setting-section>
-<setting-section data-title="调试">
-    <setting-panel>
-        <setting-list data-direction="column">
-            <setting-item data-direction="row">
-                <div>
-                    <setting-text>Debug 模式</setting-text>
-                    <setting-text data-type="secondary">在主进程输出详细的日志信息</setting-text>
-                </div>
-                <setting-text id="purlfy-debug" title="使用命令行参数 --purlfy-debug 启动 QQ 来启用">未启用</setting-text>
-            </setting-item>
             <setting-item data-direction="row">
                 <div>
                     <setting-text>更新规则</setting-text>
@@ -148,6 +135,25 @@
                     <setting-text data-type="secondary">立即重载规则文件</setting-text>
                 </div>
                 <setting-button data-type="primary" id="purlfy-reload-rules">重载规则</setting-button>
+            </setting-item>
+        </setting-list>
+    </setting-panel>
+</setting-section>
+<setting-section data-title="规则列表" class="rules">
+    <setting-panel>
+        <setting-list data-direction="column">
+        </setting-list>
+    </setting-panel>
+</setting-section>
+<setting-section data-title="调试">
+    <setting-panel>
+        <setting-list data-direction="column">
+            <setting-item data-direction="row">
+                <div>
+                    <setting-text>Debug 模式</setting-text>
+                    <setting-text data-type="secondary">在主进程输出详细的日志信息</setting-text>
+                </div>
+                <setting-text id="purlfy-debug" title="使用命令行参数 --purlfy-debug 启动 QQ 来启用">未启用</setting-text>
             </setting-item>
             <setting-item data-direction="row">
                 <div>

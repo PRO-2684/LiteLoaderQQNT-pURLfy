@@ -24,6 +24,10 @@ contextBridge.exposeInMainWorld("purlfy", {
         "LiteLoader.purlfy.setTempDisable",
         tempDisable
     ),
+    toggle: (name, enabled) => ipcRenderer.invoke(
+        "LiteLoader.purlfy.toggle",
+        name, enabled
+    ),
     updateRules: () => ipcRenderer.invoke(
         "LiteLoader.purlfy.updateRules"
     ),
@@ -33,5 +37,5 @@ contextBridge.exposeInMainWorld("purlfy", {
     purify: (url) => ipcRenderer.invoke(
         "LiteLoader.purlfy.purify",
         url
-    )
+    ),
 });

@@ -165,6 +165,11 @@ ipcMain.on("LiteLoader.purlfy.setTempDisable", (event, value) => {
     tempDisable = value;
     notifyTempDisableChange();
 });
+ipcMain.handle("LiteLoader.purlfy.toggle", (event, name, enabled) => {
+    log("toggle:", name, enabled);
+    config.rules[name] = enabled;
+    return enabled;
+});
 ipcMain.handle("LiteLoader.purlfy.updateRules", updateRules);
 ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
     settingWindow = BrowserWindow.fromWebContents(event.sender);
@@ -177,7 +182,8 @@ ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
         statistics: purifier.getStatistics(),
         tempDisable: tempDisable,
         isDebug: isDebug,
-        lambdaEnabled: purifier.lambdaEnabled
+        lambdaEnabled: purifier.lambdaEnabled,
+        rules: config.rules
     };
 });
 ipcMain.handle("LiteLoader.purlfy.purify", async (event, url) => {

@@ -24,17 +24,33 @@ async function onSettingWindowCreated(view) {
         this.parentElement.classList.toggle("is-loading", true);
         const r = await purlfy.updateRules();
         this.textContent = r ? "更新成功" : "暂无更新";
-        setTimeout(() => {
-            this.textContent = "更新规则";
+        if (r) {
+            this.removeEventListener("click", onUpdateRules);
+            this.title = "点击重新加载规则";
+            this.addEventListener("click", async function () {
+                this.parentElement.classList.toggle("is-loading", true);
+                await purlfy.reloadRules();
+                location.reload();
+            });
             this.parentElement.classList.toggle("is-loading", false);
-        }, 2000);
+        } else {
+            setTimeout(() => {
+                this.textContent = "更新规则";
+                this.parentElement.classList.toggle("is-loading", false);
+            }, 2000);
+        }
+    }
+    async function onReloadRules() {
+        this.parentElement.classList.toggle("is-loading", true);
+        await purlfy.reloadRules();
+        location.reload();
     }
     $("#purlfy-update-rules").addEventListener("click", onUpdateRules);
-    $("#purlfy-reload-rules").addEventListener("click", purlfy.reloadRules);
+    $("#purlfy-reload-rules").addEventListener("click", onReloadRules);
 
     // Statistics and switches
-    const lambdaEnabledButton = $("#purlfy-lambda-enabled");
-    const tempDisableButton = $("#purlfy-temp-disable");
+    const lambdaEnabledSwitch = $("#purlfy-lambda-enabled");
+    const tempDisableSwitch = $("#purlfy-temp-disable");
     function removeTrailingZeroes(s) {
         return s.replace(/\.?0+$/, "");
     }
@@ -57,20 +73,20 @@ async function onSettingWindowCreated(view) {
         }
     }
     async function updateLambdaEnabled(lambdaEnabled) {
-        lambdaEnabledButton.toggleAttribute("is-active", lambdaEnabled);
-        lambdaEnabledButton.parentElement.classList.toggle("is-loading", false);
+        lambdaEnabledSwitch.toggleAttribute("is-active", lambdaEnabled);
+        lambdaEnabledSwitch.parentElement.classList.toggle("is-loading", false);
     }
     async function updateTempDisable(tempDisable) {
-        tempDisableButton.toggleAttribute("is-active", tempDisable);
-        tempDisableButton.parentElement.classList.toggle("is-loading", false);
+        tempDisableSwitch.toggleAttribute("is-active", tempDisable);
+        tempDisableSwitch.parentElement.classList.toggle("is-loading", false);
     }
-    lambdaEnabledButton.addEventListener("click", async () => {
-        lambdaEnabledButton.parentElement.classList.toggle("is-loading", true);
-        purlfy.setLambdaEnabled(!lambdaEnabledButton.hasAttribute("is-active"));
+    lambdaEnabledSwitch.addEventListener("click", async () => {
+        lambdaEnabledSwitch.parentElement.classList.toggle("is-loading", true);
+        purlfy.setLambdaEnabled(!lambdaEnabledSwitch.hasAttribute("is-active"));
     });
-    tempDisableButton.addEventListener("click", async () => {
-        tempDisableButton.parentElement.classList.toggle("is-loading", true);
-        purlfy.setTempDisable(!tempDisableButton.hasAttribute("is-active"));
+    tempDisableSwitch.addEventListener("click", async () => {
+        tempDisableSwitch.parentElement.classList.toggle("is-loading", true);
+        purlfy.setTempDisable(!tempDisableSwitch.hasAttribute("is-active"));
     });
     purlfy.onStatisticsChange(async (event, statistics) => {
         updateStatistics(statistics);
@@ -90,6 +106,29 @@ async function onSettingWindowCreated(view) {
         debugText.removeAttribute("title");
         debugText.textContent = "已启用";
     }
+    // Rules
+    const container = $("setting-section.rules > setting-panel > setting-list");
+    function addRules(name, enabled) {
+        const item = container.appendChild(document.createElement("setting-item"));
+        item.setAttribute("data-direction", "row");
+        const left = item.appendChild(document.createElement("div"));
+        const itemName = left.appendChild(document.createElement("setting-text"));
+        itemName.textContent = name;
+        itemName.title = `${name}.min.json`;
+        const switch_ = item.appendChild(document.createElement("setting-switch"));
+        switch_.toggleAttribute("is-active", enabled);
+        switch_.title = "启用/禁用需重载规则生效";
+        switch_.addEventListener("click", async function () {
+            this.parentElement.toggleAttribute("is-loading", true);
+            const result = await purlfy.toggle(name, this.toggleAttribute("is-active"));
+            this.parentElement.toggleAttribute("is-loading", false);
+            this.toggleAttribute("is-active", result);
+        });
+    }
+    Object.entries(info.rules).forEach(([name, enabled]) => {
+        addRules(name, enabled);
+    });
+    // Logo
     const logo = $(".logo");
     logo.src = `local:///${pluginPath}/icons/icon.svg`;
     // About - Version
