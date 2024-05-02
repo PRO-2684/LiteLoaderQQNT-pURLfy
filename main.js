@@ -20,6 +20,7 @@ const defaultConfig = {
         param: 0,
         decoded: 0,
         redirected: 0,
+        visited: 0,
         char: 0
     },
     hooks: {
@@ -41,7 +42,7 @@ log("Statistics loaded:", config.statistics);
 
 // pURLfy instance
 const purifier = new Purlfy({
-    redirectEnabled: true,
+    fetchEnabled: true,
     lambdaEnabled: config.lambdaEnabled,
     statistics: config.statistics,
     log: log
@@ -80,7 +81,7 @@ async function loadRules() { // Load rules
 }
 
 async function update(name) { // Update `name.min.json`, return true if updated
-    const url = `https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy-rules@latest/${name}.min.json`;
+    const url = `https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy-rules@core-0.3.x/${name}.min.json`;
     const localPath = path.join(rulesPath, `${name}.min.json`);
     const etag = fs.existsSync(localPath) ? config.etags[name] ?? "" : "";
     try {
