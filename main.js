@@ -248,6 +248,8 @@ app.on("will-quit", () => {
     log("Statistics saved:", statistics);
 });
 
+log(`🎉 Initialized successfully! Plugin version: ${LiteLoader.plugins[slug].manifest.version}, pURLfy core version: ${Purlfy.version}.`);
+
 module.exports = {
     onBrowserWindowCreated,
 };
