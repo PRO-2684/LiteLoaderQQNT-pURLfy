@@ -33,17 +33,11 @@
         position: fixed;
         right: 20px;
         top: 40px;
-        width: 4em;
-        height: 4em;
+        height: 60px;
         z-index: 9999;
         opacity: 0;
-        transition: opacity 0.2s ease-in-out;
+        transition: opacity 0.2s ease-in-out, transform 0.4s ease-in-out 0.2s;
         background: none !important;
-
-        &:hover {
-            opacity: 1;
-            animation: 1s press 0.2s;
-        }
     }
 
     .purlfy setting-switch[is-disabled] {
@@ -59,13 +53,6 @@
             pointer-events: none;
             opacity: 0.6;
         }
-    }
-
-    /* Animation */
-    @keyframes press {
-        0% { transform: scale(1); }
-        70% { transform: scale(0.9); }
-        100% { transform: scale(1); }
     }
 </style>
 <img class="logo" src=""></img>

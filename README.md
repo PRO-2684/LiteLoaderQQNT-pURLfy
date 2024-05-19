@@ -1,4 +1,4 @@
-<img src="./icons/icon.svg" align="right" style="width: 6em; height: 6em;"></img>
+<img src="./icons/icon.svg" align="right" style="height: 6em;"></img>
 
 # pURLfy
 

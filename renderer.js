@@ -131,6 +131,27 @@ async function onSettingWindowCreated(view) {
     // Logo
     const logo = $(".logo");
     logo.src = `local:///${pluginPath}/icons/icon.svg`;
+    // Easter egg
+    const range = [-(window.innerWidth - 100), window.innerHeight - 120];
+    const minDist = 80;
+    let current = [0, 0];
+    logo.addEventListener("mouseenter", () => {
+        logo.style.opacity = 1;
+        let newX = Math.random() * range[0];
+        let newY = Math.random() * range[1];
+        let maxTries = 10;
+        while (Math.hypot(newX - current[0], newY - current[1]) < minDist && maxTries-- > 0) {
+            newX = Math.random() * range[0];
+            newY = Math.random() * range[1];
+        }
+        current = [newX, newY];
+        logo.style.transform = `translate(${newX}px, ${newY}px)`;
+    });
+    logo.addEventListener("mouseleave", () => {
+        setTimeout(() => {
+            logo.style.opacity = 0;
+        }, 500);
+    });
     // About - Version
     $("#purlfy-version").textContent = LiteLoader.plugins.purlfy.manifest.version;
     // About - Backgroud image

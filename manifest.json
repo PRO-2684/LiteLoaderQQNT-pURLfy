@@ -4,7 +4,7 @@
     "name": "pURLfy",
     "slug": "purlfy",
     "description": "🧹 链接净化",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "icon": "./icons/icon.svg",
     "thumb": "./icons/thumb.svg",
     "authors": [
@@ -17,7 +17,7 @@
         "repo": "PRO-2684/LiteLoaderQQNT-pURLfy",
         "branch": "main",
         "release": {
-            "tag": "v0.2.9",
+            "tag": "v0.3.1",
             "file": "purlfy-release.zip"
         }
     },
