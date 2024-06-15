@@ -4,7 +4,7 @@
     "name": "pURLfy",
     "slug": "purlfy",
     "description": "🧹 链接净化",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "icon": "./icons/icon.svg",
     "thumb": "./icons/thumb.svg",
     "authors": [
