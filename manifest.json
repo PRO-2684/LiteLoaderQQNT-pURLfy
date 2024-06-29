@@ -17,7 +17,7 @@
         "repo": "PRO-2684/LiteLoaderQQNT-pURLfy",
         "branch": "main",
         "release": {
-            "tag": "v0.3.2",
+            "tag": "v0.3.3",
             "file": "purlfy-release.zip"
         }
     },
