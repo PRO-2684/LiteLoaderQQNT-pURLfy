@@ -27,9 +27,9 @@
 
 ## 📥 安装
 
-### 插件商店
+### 自动安装
 
-在插件商店中找到 pURLfy 并安装。
+在 [插件安装器](https://github.com/xinyihl/LiteLoaderQQNT-PluginInstaller) 或 [插件列表查看](https://github.com/ltxhhz/LL-plugin-list-viewer) 中找到 pURLfy 并安装。
 
 ### 手动安装
 
@@ -63,7 +63,7 @@ plugins (所有的插件目录)
 
 ## ❤️ 贡献
 
-欢迎提交 PR 或 Issue，来改进此插件以及 [pURLfy core](https://github.com/PRO-2684/pURLfy)。此插件基于 pURLfy core，它是 pURLfy 的核心部分，独立为一个 JavaScript 库，用于净化 URL 链接。若此插件无法正常工作，并且问题不出自 `purlfy.js`，请在此仓库中提交 Issue 或 PR；若净化链接有问题，或者想要完善净化规则，请在 [pURLfy core](https://github.com/PRO-2684/pURLfy) 仓库中提交 Issue 或 PR。
+欢迎提交 PR 或 Issue 来改进此插件。此插件基于 [pURLfy core](https://github.com/PRO-2684/pURLfy)，它是 pURLfy 的核心部分，独立为一个 JavaScript 库，用于净化 URL 链接。若此插件无法正常工作，请在此仓库中提交 Issue 或 PR；若净化链接有问题，请在 [pURLfy core](https://github.com/PRO-2684/pURLfy) 仓库中提交 Issue 或 PR；若想要完善净化规则，请在 [pURLfy rules](https://github.com/PRO-2684/pURLfy-rules) 仓库中提交 Issue 或 PR。
 
 若您想要调试此插件或规则文件，可以使用 `--purlfy-debug` 参数激活 Debug 模式，此时插件会在控制台输出调试信息。
 
