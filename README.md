@@ -71,3 +71,7 @@ plugins (所有的插件目录)
 
 - 感谢 [Tarnhelm](https://tarnhelm.project.ac.cn/) 提供的规则文件，为 pURLfy 提供了很多灵感
 - 感谢 GreasyFork 上的 [这个脚本](https://greasyfork.org/scripts/412612)，为 pURLfy 提供了一些规则
+
+## ⭐ Star History
+
+[![Stargazers over time](https://starchart.cc/PRO-2684/LiteLoaderQQNT-pURLfy.svg?variant=adaptive)](https://starchart.cc/PRO-2684/LiteLoaderQQNT-pURLfy)
