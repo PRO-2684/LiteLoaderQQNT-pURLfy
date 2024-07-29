@@ -34,10 +34,7 @@ const defaultConfig = {
         "alternative": false,
     }
 };
-const config = LiteLoader.api.config.get(slug, defaultConfig);
-for (const key in defaultConfig) { // Fill missing keys
-    config[key] ??= defaultConfig[key];
-}
+const config = Object.assign({}, defaultConfig, LiteLoader.api.config.get(slug, defaultConfig));
 log("Statistics loaded:", config.statistics);
 
 // pURLfy instance
