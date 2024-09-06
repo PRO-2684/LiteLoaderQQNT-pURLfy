@@ -30,8 +30,8 @@ const defaultConfig = {
     lambdaEnabled: false,
     etags: {},
     rules: {
-        "cn": true,
-        "alternative": false,
+        "tracking": true,
+        "outgoing": true
     }
 };
 const config = Object.assign({}, defaultConfig, LiteLoader.api.config.get(slug, defaultConfig));
@@ -239,10 +239,9 @@ function onBrowserWindowCreated(window) {
 }
 
 // Cleanup - Save statistics
-app.on("will-quit", () => {
-    const statistics = purifier.getStatistics();
+app.on("quit", () => {
     LiteLoader.api.config.set(slug, config);
-    log("Statistics saved:", statistics);
+    log("Config saved:", config);
 });
 
 log(`🎉 Initialized successfully! Plugin version: ${LiteLoader.plugins[slug].manifest.version}, pURLfy core version: ${Purlfy.version}.`);
