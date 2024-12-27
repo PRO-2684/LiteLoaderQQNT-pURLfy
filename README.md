@@ -2,6 +2,12 @@
 
 # pURLfy
 
+[![GitHub License](https://img.shields.io/github/license/PRO-2684/LiteLoaderQQNT-pURLfy?logo=gnu)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/blob/main/LICENSE)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/PRO-2684/LiteLoaderQQNT-pURLfy/release.yml?branch=main&logo=githubactions)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/blob/main/.github/workflows/release.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/PRO-2684/LiteLoaderQQNT-pURLfy?logo=githubactions)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PRO-2684/LiteLoaderQQNT-pURLfy/total?logo=github)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases)
+[![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/PRO-2684/LiteLoaderQQNT-pURLfy/latest/total?logo=github)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases/latest)
+
 > 🧹 pURLfy, 取自 "purify" 和 "URL" 的结合，意为净化 URL 链接，可发音为 `pjuɑrelfaɪ`。
 
 [LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于净化 QQNT 中的 URL 链接。此插件灵感来源于 [Tarnhelm](https://tarnhelm.project.ac.cn/)。
@@ -65,7 +71,7 @@ plugins (所有的插件目录)
 
 欢迎提交 PR 或 Issue 来改进此插件。此插件基于 [pURLfy core](https://github.com/PRO-2684/pURLfy)，它是 pURLfy 的核心部分，独立为一个 JavaScript 库，用于净化 URL 链接。若此插件无法正常工作，请在此仓库中提交 Issue 或 PR；若净化链接有问题，请在 [pURLfy core](https://github.com/PRO-2684/pURLfy) 仓库中提交 Issue 或 PR；若想要完善净化规则，请在 [pURLfy rules](https://github.com/PRO-2684/pURLfy-rules) 仓库中提交 Issue 或 PR。
 
-若您想要调试此插件或规则文件，可以使用 `--purlfy-debug` 参数激活 Debug 模式，此时插件会在控制台输出调试信息。
+若您想要调试此插件或规则文件，可以使用 `--purlfy-debug` 参数激活 Debug 模式，使用 `--enable-logging` 启用控制台输出，此时插件会在控制台输出调试信息。
 
 ## 🎉 鸣谢
 
