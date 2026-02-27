@@ -8,9 +8,6 @@
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PRO-2684/LiteLoaderQQNT-pURLfy/total?logo=github)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases)
 [![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/PRO-2684/LiteLoaderQQNT-pURLfy/latest/total?logo=github)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases/latest)
 
-> [!NOTE]
-> 最近风控较为严格，作者的账号也没有幸免，现在无法在电脑上登录与调试。因此此插件暂停维护。
-
 > 🧹 pURLfy, 取自 "purify" 和 "URL" 的结合，意为净化 URL 链接，可发音为 `pjuɑrelfaɪ`。
 
 [LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于净化 QQNT 中的 URL 链接。此插件灵感来源于 [Tarnhelm](https://tarnhelm.project.ac.cn/)。
