@@ -30,6 +30,7 @@
     },
     "homepage": "https://github.com/PRO-2684/QQNT-pURLfy#readme",
     "devDependencies": {
+        "@qwqnt-community/hako-types": "github:qwqnt-community/plugin-types#hako",
         "@qwqnt/types": "github:qwqnt-community/types"
     }
 }

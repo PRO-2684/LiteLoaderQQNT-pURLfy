@@ -2,10 +2,18 @@
 const meta = qwqnt.framework.plugins.purlfy.meta;
 const pluginPath = meta.path.replace(":\\", "://").replaceAll("\\", "/");
 
+/** Function to get the URL of a plugin asset.
+ * @param {string} path The relative path of the asset.
+ * @returns {string} The URL of the asset.
+ */
+function pluginAssetUrl(path) {
+    return qwqnt.framework.protocol.pathToStorageUrl(`${pluginPath}/${path}`);
+}
+
 async function onSettingWindowCreated(view) {
     const $ = view.querySelector.bind(view);
     view.innerHTML = await (
-        await fetch(`local:///${pluginPath}/settings.html`)
+        await fetch(pluginAssetUrl("settings.html"))
     ).text();
     const input = $("#purlfy-clean-input");
     const outputUrl = $("#purlfy-clean-url");
@@ -144,7 +152,7 @@ async function onSettingWindowCreated(view) {
     });
     // Logo
     const logo = $(".logo");
-    logo.src = `local:///${pluginPath}/icons/icon.svg`;
+    logo.src = pluginAssetUrl("icons/icon.svg");
     // Easter egg
     const range = [-(window.innerWidth - 100), window.innerHeight - 120];
     const minDist = 80;
@@ -174,7 +182,7 @@ async function onSettingWindowCreated(view) {
     // About - Backgroud image
     ["version", "author", "issues"].forEach((id) => {
         $(`#purlfy-about-${id}`).style.backgroundImage =
-            `url("local:///${pluginPath}/icons/${id}.svg")`;
+            `url("${pluginAssetUrl(`icons/${id}.svg`)}")`;
     });
     // Links
     function openURL(e) {
@@ -192,4 +200,10 @@ async function onSettingWindowCreated(view) {
     });
 }
 
-export { onSettingWindowCreated };
+PluginSettings.renderer
+    .registerPluginSettings(qwqnt.framework.plugins.purlfy.meta.packageJson)
+    .then((view) => {
+        if (view) {
+            onSettingWindowCreated(view);
+        }
+    });

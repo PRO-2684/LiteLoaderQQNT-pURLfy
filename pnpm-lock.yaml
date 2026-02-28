@@ -8,16 +8,25 @@ importers:
 
   .:
     devDependencies:
+      '@qwqnt-community/hako-types':
+        specifier: github:qwqnt-community/plugin-types#hako
+        version: https://codeload.github.com/qwqnt-community/plugin-types/tar.gz/26ee2d11f192b73ca7fe5c715feaa6302675beee
       '@qwqnt/types':
         specifier: github:qwqnt-community/types
         version: https://codeload.github.com/qwqnt-community/types/tar.gz/dbf148cedce0fa64bd1bab015e2f4cd2a0bbb037
 
 packages:
 
+  '@qwqnt-community/hako-types@https://codeload.github.com/qwqnt-community/plugin-types/tar.gz/26ee2d11f192b73ca7fe5c715feaa6302675beee':
+    resolution: {tarball: https://codeload.github.com/qwqnt-community/plugin-types/tar.gz/26ee2d11f192b73ca7fe5c715feaa6302675beee}
+    version: 1.0.0
+
   '@qwqnt/types@https://codeload.github.com/qwqnt-community/types/tar.gz/dbf148cedce0fa64bd1bab015e2f4cd2a0bbb037':
     resolution: {tarball: https://codeload.github.com/qwqnt-community/types/tar.gz/dbf148cedce0fa64bd1bab015e2f4cd2a0bbb037}
     version: 0.0.0
 
 snapshots:
+
+  '@qwqnt-community/hako-types@https://codeload.github.com/qwqnt-community/plugin-types/tar.gz/26ee2d11f192b73ca7fe5c715feaa6302675beee': {}
 
   '@qwqnt/types@https://codeload.github.com/qwqnt-community/types/tar.gz/dbf148cedce0fa64bd1bab015e2f4cd2a0bbb037': {}
