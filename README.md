@@ -8,9 +8,12 @@
 [![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PRO-2684/LiteLoaderQQNT-pURLfy/total?logo=github)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases)
 [![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/PRO-2684/LiteLoaderQQNT-pURLfy/latest/total?logo=github)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases/latest)
 
+> [!WARNING]
+> 由于 [LiteLoaderQQNT](https://github.com/LiteLoaderQQNT/LiteLoaderQQNT) 没有良好的 ESM 支持，此插件将暂停支持此框架。若您仍需在 LiteLoaderQQNT 下使用，请使用 [`v0.3.8`](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases/tag/v0.3.8) 及之前的旧版本。若您有良好的编程基础，亦可尝试自行修改 LiteLoaderQQNT 框架后使用。
+
 > 🧹 pURLfy, 取自 "purify" 和 "URL" 的结合，意为净化 URL 链接，可发音为 `pjuɑrelfaɪ`。
 
-[LiteLoaderQQNT](https://github.com/mo-jinran/LiteLoaderQQNT) 插件，用于净化 QQNT 中的 URL 链接。此插件灵感来源于 [Tarnhelm](https://tarnhelm.project.ac.cn/)。
+QwQNT 插件，用于净化 QQNT 中的 URL 链接。此插件灵感来源于 [Tarnhelm](https://tarnhelm.project.ac.cn/)。
 
 ## 🪄 具体功能
 

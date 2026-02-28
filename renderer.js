@@ -1,8 +1,13 @@
-const pluginPath = LiteLoader.plugins.purlfy.path.plugin.replace(":\\", "://").replaceAll("\\", "/"); // Normalized plugin path
+// Normalized plugin path
+const pluginPath = qwqnt.framework.plugins[slug].meta.path
+    .replace(":\\", "://")
+    .replaceAll("\\", "/");
 
 async function onSettingWindowCreated(view) {
     const $ = view.querySelector.bind(view);
-    view.innerHTML = await (await fetch(`local:///${pluginPath}/settings.html`)).text();
+    view.innerHTML = await (
+        await fetch(`local:///${pluginPath}/settings.html`)
+    ).text();
     const input = $("#purlfy-clean-input");
     const outputUrl = $("#purlfy-clean-url");
     const outputRule = $("#purlfy-clean-rule");
@@ -54,7 +59,8 @@ async function onSettingWindowCreated(view) {
     function removeTrailingZeroes(s) {
         return s.replace(/\.?0+$/, "");
     }
-    function format(number) { // Format to readable number (using K, M, G etc.)
+    function format(number) {
+        // Format to readable number (using K, M, G etc.)
         const suffixes = ["", "K", "M", "G", "T", "P", "E", "Z", "Y"];
         let i = 0;
         while (number >= 1000) {
@@ -109,18 +115,27 @@ async function onSettingWindowCreated(view) {
     // Rules
     const container = $("setting-section.rules > setting-panel > setting-list");
     function addRules(name, enabled) {
-        const item = container.appendChild(document.createElement("setting-item"));
+        const item = container.appendChild(
+            document.createElement("setting-item"),
+        );
         item.setAttribute("data-direction", "row");
         const left = item.appendChild(document.createElement("div"));
-        const itemName = left.appendChild(document.createElement("setting-text"));
+        const itemName = left.appendChild(
+            document.createElement("setting-text"),
+        );
         itemName.textContent = name;
         itemName.title = `${name}.min.json`;
-        const switch_ = item.appendChild(document.createElement("setting-switch"));
+        const switch_ = item.appendChild(
+            document.createElement("setting-switch"),
+        );
         switch_.toggleAttribute("is-active", enabled);
         switch_.title = "启用/禁用需重载规则生效";
         switch_.addEventListener("click", async function () {
             this.parentElement.toggleAttribute("is-loading", true);
-            const result = await purlfy.toggle(name, this.toggleAttribute("is-active"));
+            const result = await purlfy.toggle(
+                name,
+                this.toggleAttribute("is-active"),
+            );
             this.parentElement.toggleAttribute("is-loading", false);
             this.toggleAttribute("is-active", result);
         });
@@ -140,7 +155,10 @@ async function onSettingWindowCreated(view) {
         let newX = Math.random() * range[0];
         let newY = Math.random() * range[1];
         let maxTries = 10;
-        while (Math.hypot(newX - current[0], newY - current[1]) < minDist && maxTries-- > 0) {
+        while (
+            Math.hypot(newX - current[0], newY - current[1]) < minDist &&
+            maxTries-- > 0
+        ) {
             newX = Math.random() * range[0];
             newY = Math.random() * range[1];
         }
@@ -153,10 +171,12 @@ async function onSettingWindowCreated(view) {
         }, 500);
     });
     // About - Version
-    $("#purlfy-version").textContent = LiteLoader.plugins.purlfy.manifest.version;
+    $("#purlfy-version").textContent =
+        LiteLoader.plugins.purlfy.manifest.version;
     // About - Backgroud image
-    ["version", "author", "issues"].forEach(id => {
-        $(`#purlfy-about-${id}`).style.backgroundImage = `url("local:///${pluginPath}/icons/${id}.svg")`;
+    ["version", "author", "issues"].forEach((id) => {
+        $(`#purlfy-about-${id}`).style.backgroundImage =
+            `url("local:///${pluginPath}/icons/${id}.svg")`;
     });
     // Links
     function openURL(e) {
@@ -166,7 +186,7 @@ async function onSettingWindowCreated(view) {
             LiteLoader.api.openExternal(url);
         }
     }
-    view.querySelectorAll(".purlfy-link").forEach(link => {
+    view.querySelectorAll(".purlfy-link").forEach((link) => {
         if (!link.hasAttribute("title")) {
             link.setAttribute("title", link.getAttribute("data-purlfy-url"));
         }
@@ -174,6 +194,4 @@ async function onSettingWindowCreated(view) {
     });
 }
 
-export {
-    onSettingWindowCreated
-}
+export { onSettingWindowCreated };

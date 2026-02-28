@@ -1,17 +1,21 @@
-const fs = require("fs");
-const path = require("path");
-const { BrowserWindow, ipcMain, shell, app } = require("electron");
-const Purlfy = require("./purlfy");
+import fs from "fs";
+import path from "path";
+import { BrowserWindow, ipcMain, shell, app } from "electron";
+import { Purlfy } from "./purlfy";
 let settingWindow = null;
 let tempDisable = false;
 
 const slug = "purlfy";
-const name = LiteLoader.plugins[slug].manifest.name;
-const urlPattern = /https?:\/\/.(?:www\.)?[-a-zA-Z0-9@%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?!&\/\/=]*)/gm;
+const meta = qwqnt.framework.plugins[slug].meta;
+const name = meta.packageJson.qwqnt.name;
+const urlPattern =
+    /https?:\/\/.(?:www\.)?[-a-zA-Z0-9@%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?!&\/\/=]*)/gm;
 const isDebug = process.argv.includes(`--${slug}-debug`);
-const log = isDebug ? console.log.bind(console, "\x1b[38;2;220;20;60m%s\x1b[0m", `[${name}]`) : () => { };
+const log = isDebug
+    ? console.log.bind(console, "\x1b[38;2;220;20;60m%s\x1b[0m", `[${name}]`)
+    : () => {};
 
-const dataPath = LiteLoader.plugins[slug].path.data;
+const dataPath = qwqnt.framework.paths.data + "/" + slug;
 const rulesPath = path.join(dataPath, "rules");
 const listPath = path.join(rulesPath, "list.min.json");
 const defaultConfig = {
@@ -21,20 +25,24 @@ const defaultConfig = {
         decoded: 0,
         redirected: 0,
         visited: 0,
-        char: 0
+        char: 0,
     },
     hooks: {
         "shell.openExternal": true,
-        "sendMessage": false
+        sendMessage: false,
     },
     lambdaEnabled: false,
     etags: {},
     rules: {
-        "tracking": true,
-        "outgoing": true
-    }
+        tracking: true,
+        outgoing: true,
+    },
 };
-const config = Object.assign({}, defaultConfig, LiteLoader.api.config.get(slug, defaultConfig));
+const config = Object.assign(
+    {},
+    defaultConfig,
+    PluginSettings.main.readConfig(slug, defaultConfig),
+);
 log("Statistics loaded:", config.statistics);
 
 // pURLfy instance
@@ -42,14 +50,15 @@ const purifier = new Purlfy({
     fetchEnabled: true,
     lambdaEnabled: config.lambdaEnabled,
     statistics: config.statistics,
-    log: log
+    log: log,
 });
 
 purifier.addEventListener("statisticschange", () => {
     notifyStatisticsChange(purifier.getStatistics());
 });
 
-async function loadRules() { // Load rules
+async function loadRules() {
+    // Load rules
     purifier.clearRules();
     if (!fs.existsSync(rulesPath)) {
         log("Rules path not found, creating...");
@@ -67,7 +76,12 @@ async function loadRules() { // Load rules
             continue;
         }
         try {
-            const rule = JSON.parse(fs.readFileSync(path.join(rulesPath, `${name}.min.json`), "utf8"));
+            const rule = JSON.parse(
+                fs.readFileSync(
+                    path.join(rulesPath, `${name}.min.json`),
+                    "utf8",
+                ),
+            );
             purifier.importRules(rule);
             log("Rules file loaded:", name);
         } catch (e) {
@@ -77,12 +91,15 @@ async function loadRules() { // Load rules
     return true;
 }
 
-async function update(name) { // Update `name.min.json`, return true if updated
+async function update(name) {
+    // Update `name.min.json`, return true if updated
     const url = `https://cdn.jsdelivr.net/gh/PRO-2684/pURLfy-rules@core-0.3.x/${name}.min.json`;
     const localPath = path.join(rulesPath, `${name}.min.json`);
-    const etag = fs.existsSync(localPath) ? config.etags[name] ?? "" : "";
+    const etag = fs.existsSync(localPath) ? (config.etags[name] ?? "") : "";
     try {
-        const response = await fetch(url, { headers: { "If-None-Match": etag } });
+        const response = await fetch(url, {
+            headers: { "If-None-Match": etag },
+        });
         if (response.status === 200) {
             fs.writeFileSync(localPath, await response.text(), "utf8");
             const newEtag = response.headers.get("Etag") ?? etag;
@@ -92,7 +109,11 @@ async function update(name) { // Update `name.min.json`, return true if updated
         } else if (response.status === 304) {
             log(`${name}.min.json is up-to-date`);
         } else {
-            log("Unexpected status code:", response.status, response.statusText);
+            log(
+                "Unexpected status code:",
+                response.status,
+                response.statusText,
+            );
         }
         return false;
     } catch (e) {
@@ -101,7 +122,8 @@ async function update(name) { // Update `name.min.json`, return true if updated
     }
 }
 
-async function updateRules() { // Update rules, return true if updated
+async function updateRules() {
+    // Update rules, return true if updated
     let updated = await update("list");
     const list = JSON.parse(fs.readFileSync(listPath, "utf8"));
     for (const name of list) {
@@ -111,30 +133,43 @@ async function updateRules() { // Update rules, return true if updated
     return updated;
 }
 
-function notifyStatisticsChange(statistics) { // Notify the setting window about statistics change
+function notifyStatisticsChange(statistics) {
+    // Notify the setting window about statistics change
     if (settingWindow) {
         log("Notify statistics change");
-        settingWindow.webContents.send("LiteLoader.purlfy.statisticsChange", statistics);
+        settingWindow.webContents.send(
+            "LiteLoader.purlfy.statisticsChange",
+            statistics,
+        );
     }
     config.statistics = statistics;
 }
 
-function notifyLambdaEnabledChange() { // Notify the setting window about lambda enabled change
+function notifyLambdaEnabledChange() {
+    // Notify the setting window about lambda enabled change
     if (settingWindow) {
         log("Notify lambda enabled change:", purifier.lambdaEnabled);
-        settingWindow.webContents.send("LiteLoader.purlfy.lambdaEnabledChange", purifier.lambdaEnabled);
+        settingWindow.webContents.send(
+            "LiteLoader.purlfy.lambdaEnabledChange",
+            purifier.lambdaEnabled,
+        );
     }
     config.lambdaEnabled = purifier.lambdaEnabled;
 }
 
-function notifyTempDisableChange() { // Notify the setting window about temp disable change
+function notifyTempDisableChange() {
+    // Notify the setting window about temp disable change
     if (settingWindow) {
         log("Notify temp disable change:", tempDisable);
-        settingWindow.webContents.send("LiteLoader.purlfy.tempDisableChange", tempDisable);
+        settingWindow.webContents.send(
+            "LiteLoader.purlfy.tempDisableChange",
+            tempDisable,
+        );
     }
 }
 
-async function purifyText(text) { // Purify URLs in text
+async function purifyText(text) {
+    // Purify URLs in text
     const urls = text.match(urlPattern);
     if (urls) {
         try {
@@ -181,7 +216,7 @@ ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
         tempDisable: tempDisable,
         isDebug: isDebug,
         lambdaEnabled: purifier.lambdaEnabled,
-        rules: config.rules
+        rules: config.rules,
     };
 });
 ipcMain.handle("LiteLoader.purlfy.purify", async (event, url) => {
@@ -193,15 +228,20 @@ config.hooks ??= defaultConfig.hooks;
 if (config.hooks["shell.openExternal"]) {
     const originalOpen = shell.openExternal;
     shell.openExternal = async function (url, options) {
-        return originalOpen(tempDisable ? url : (await purifier.purify(url)).url, options);
+        return originalOpen(
+            tempDisable ? url : (await purifier.purify(url)).url,
+            options,
+        );
     };
 }
 function onBrowserWindowCreated(window) {
-    if (!config.hooks.sendMessage) { // No need to hook
+    if (!config.hooks.sendMessage) {
+        // No need to hook
         return;
     }
     const events = window.webContents._events;
-    function patch(ipcFunc) { // Adapted from https://github.com/MisaLiu/LiteLoaderQQNT-Pangu/blob/7d1b393319df2f42e7b9b42a9471463b28c04bca/src/hook.ts#L18
+    function patch(ipcFunc) {
+        // Adapted from https://github.com/MisaLiu/LiteLoaderQQNT-Pangu/blob/7d1b393319df2f42e7b9b42a9471463b28c04bca/src/hook.ts#L18
         if (!ipcFunc || typeof ipcFunc !== "function") {
             log("Invalid ipcFunc:", ipcFunc);
             return ipcFunc;
@@ -209,7 +249,12 @@ function onBrowserWindowCreated(window) {
         async function patched(...args) {
             const channel = args[2];
             const data = args[3]?.[1];
-            if (tempDisable || channel.startsWith("LiteLoader.") || !data || !(data instanceof Array)) {
+            if (
+                tempDisable ||
+                channel.startsWith("LiteLoader.") ||
+                !data ||
+                !(data instanceof Array)
+            ) {
                 return ipcFunc.apply(this, args);
             }
             const [command, ...payload] = data;
@@ -217,7 +262,10 @@ function onBrowserWindowCreated(window) {
                 const elements = payload[0]?.msgElements;
                 if (elements?.length) {
                     for (const element of elements) {
-                        if (element.elementType !== 1 || element.textElement.atType !== 0) {
+                        if (
+                            element.elementType !== 1 ||
+                            element.textElement.atType !== 0
+                        ) {
                             // Do not purify non-text elements or at elements
                             continue;
                         }
@@ -240,11 +288,13 @@ function onBrowserWindowCreated(window) {
 
 // Cleanup - Save statistics
 app.on("quit", () => {
-    LiteLoader.api.config.set(slug, config);
+    PluginSettings.main.writeConfig(slug, config);
     log("Config saved:", config);
 });
 
-log(`🎉 Initialized successfully! Plugin version: ${LiteLoader.plugins[slug].manifest.version}, pURLfy core version: ${Purlfy.version}.`);
+log(
+    `🎉 Initialized successfully! Plugin version: ${meta.packageJson.version}, pURLfy core version: ${Purlfy.version}.`,
+);
 
 module.exports = {
     onBrowserWindowCreated,
