@@ -20,7 +20,7 @@ QwQNT 插件，用于净化 QQNT 中的 URL 链接。此插件灵感来源于 [T
 - 手动净化：在插件设置界面中输入链接并回车即可手动净化链接
 - 自动净化
     - 自动净化将要在浏览器打开的 URL 链接 (hook `shell.openExternal`)
-    - 自动净化发送的**文本消息**中的 URL 链接 (测试中，若想启用请参照 [使用方法](#-使用方法))
+    - 自动净化发送的**文本消息**中的 URL 链接 (高度实验性，疑似不可用，若想启用请参照 [使用方法](#-使用方法))
 - 迭代式净化：支持净化多层嵌套的链接，例如外链中的链接
 - 规则热更新：支持在插件设置中更新规则文件
 - 启用/禁用规则：在插件设置中可以启用/禁用规则 (各规则说明详见 [pURLfy rules](https://github.com/PRO-2684/pURLfy-rules))
@@ -56,7 +56,7 @@ plugins (所有的插件目录)
 
 ## 🤔 使用方法
 
-打开插件后自动生效。若想手动净化链接，可以在设置界面输入链接后回车。若想启用测试中的“净化发送的文本消息”，请修改 `config.json` 中 `hooks.sendMessage` 为  `true`。以下是一些测试链接：
+打开插件后自动生效。若想手动净化链接，可以在设置界面输入链接后回车。若想启用测试中的“净化发送的文本消息” (当前疑似不可用)，请修改 `config.json` 中 `hooks.sendMessage` 为  `true`。以下是一些测试链接：
 
 - BiliBili 短链: `https://b23.tv/SI6OEcv` (短链已过期)
 - 中规中矩的贴吧分享链接: `https://tieba.baidu.com/p/7989575070?share=none&fr=none&see_lz=none&share_from=none&sfc=none&client_type=none&client_version=none&st=none&is_video=none&unique=none`

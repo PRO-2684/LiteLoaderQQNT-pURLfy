@@ -8,6 +8,7 @@
     "qwqnt": {
         "name": "pURLfy",
         "dependencies": {
+            "qwqnt-ipc-interceptor": "^1.2.1",
             "qwqnt-hako": "^1.0.1"
         },
         "icon": "./icons/thumb.svg"
