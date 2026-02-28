@@ -2,14 +2,14 @@
 
 # pURLfy
 
-[![GitHub License](https://img.shields.io/github/license/PRO-2684/LiteLoaderQQNT-pURLfy?logo=gnu)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/blob/main/LICENSE)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/PRO-2684/LiteLoaderQQNT-pURLfy/release.yml?branch=main&logo=githubactions)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/blob/main/.github/workflows/release.yml)
-[![GitHub Release](https://img.shields.io/github/v/release/PRO-2684/LiteLoaderQQNT-pURLfy?logo=githubactions)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases)
-[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PRO-2684/LiteLoaderQQNT-pURLfy/total?logo=github)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases)
-[![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/PRO-2684/LiteLoaderQQNT-pURLfy/latest/total?logo=github)](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases/latest)
+[![GitHub License](https://img.shields.io/github/license/PRO-2684/QQNT-pURLfy?logo=gnu)](https://github.com/PRO-2684/QQNT-pURLfy/blob/main/LICENSE)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/PRO-2684/QQNT-pURLfy/release.yml?branch=main&logo=githubactions)](https://github.com/PRO-2684/QQNT-pURLfy/blob/main/.github/workflows/release.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/PRO-2684/QQNT-pURLfy?logo=githubactions)](https://github.com/PRO-2684/QQNT-pURLfy/releases)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PRO-2684/QQNT-pURLfy/total?logo=github)](https://github.com/PRO-2684/QQNT-pURLfy/releases)
+[![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/PRO-2684/QQNT-pURLfy/latest/total?logo=github)](https://github.com/PRO-2684/QQNT-pURLfy/releases/latest)
 
 > [!WARNING]
-> 由于 [LiteLoaderQQNT](https://github.com/LiteLoaderQQNT/LiteLoaderQQNT) 没有良好的 ESM 支持，此插件将暂停支持此框架。若您仍需在 LiteLoaderQQNT 下使用，请使用 [`v0.3.8`](https://github.com/PRO-2684/LiteLoaderQQNT-pURLfy/releases/tag/v0.3.8) 及之前的旧版本。若您有良好的编程基础，亦可尝试自行修改 LiteLoaderQQNT 框架后使用。
+> 由于 [LiteLoaderQQNT](https://github.com/LiteLoaderQQNT/LiteLoaderQQNT) 没有良好的 ESM 支持，此插件将暂停支持此框架。若您仍需在 LiteLoaderQQNT 下使用，请使用 [`v0.3.8`](https://github.com/PRO-2684/QQNT-pURLfy/releases/tag/v0.3.8) 及之前的旧版本。若您有良好的编程基础，亦可尝试自行修改 LiteLoaderQQNT 框架后使用。
 
 > 🧹 pURLfy, 取自 "purify" 和 "URL" 的结合，意为净化 URL 链接，可发音为 `pjuɑrelfaɪ`。
 
@@ -36,13 +36,7 @@ QwQNT 插件，用于净化 QQNT 中的 URL 链接。此插件灵感来源于 [T
 
 ## 📥 安装
 
-### 自动安装
-
-在 [插件安装器](https://github.com/xinyihl/LiteLoaderQQNT-PluginInstaller) 或 [插件列表查看](https://github.com/ltxhhz/LL-plugin-list-viewer) 中找到 pURLfy 并安装。
-
-### 手动安装
-
-- 稳定版: 下载 Release 中的 `purlfy-release.zip`，解压后放入[数据目录](https://github.com/mo-jinran/LiteLoaderQQNT-Plugin-Template/wiki/1.%E4%BA%86%E8%A7%A3%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84#liteloader%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95)下的 `plugins/purlfy` 文件夹中即可。(若没有该文件夹请自行创建)
+- 稳定版: 下载 Release 中的 `purlfy-release.zip`，解压后放入数据目录下的 `plugins/purlfy` 文件夹中即可。(若没有该文件夹请自行创建)
 - CI 版: 若想体验最新的 CI 功能，可以下载下面列出的文件后同上安装。其中 `purlfy.js` 以及规则文件 `rules/` 未包含在此仓库内，您可以从 [pURLfy core](https://github.com/PRO-2684/pURLfy/blob/main/purlfy.js) 和 [pURLfy rules](https://github.com/PRO-2684/pURLfy-rules/) 获取。
 
 完成后的目录结构应该如下:
@@ -64,7 +58,7 @@ plugins (所有的插件目录)
 
 打开插件后自动生效。若想手动净化链接，可以在设置界面输入链接后回车。若想启用测试中的“净化发送的文本消息”，请修改 `config.json` 中 `hooks.sendMessage` 为  `true`。以下是一些测试链接：
 
-- BiliBili 短链: `https://b23.tv/SI6OEcv`
+- BiliBili 短链: `https://b23.tv/SI6OEcv` (短链已过期)
 - 中规中矩的贴吧分享链接: `https://tieba.baidu.com/p/7989575070?share=none&fr=none&see_lz=none&share_from=none&sfc=none&client_type=none&client_version=none&st=none&is_video=none&unique=none`
 - MC 百科外链: `https://link.mcmod.cn/target/aHR0cHM6Ly9naXRodWIuY29tL3dheTJtdWNobm9pc2UvQmV0dGVyQWR2YW5jZW1lbnRz`
 - 必应的搜索结果: `https://www.bing.com/ck/a?!&&p=de70ef254652193fJmltdHM9MTcxMjYyMDgwMCZpZ3VpZD0wMzhlNjdlMy1mN2I2LTZmMDktMGE3YS03M2JlZjZhMzZlOGMmaW5zaWQ9NTA2Nw&ptn=3&ver=2&hsh=3&fclid=038e67e3-f7b6-6f09-0a7a-73bef6a36e8c&psq=anti&u=a1aHR0cHM6Ly9nby5taWNyb3NvZnQuY29tL2Z3bGluay8_bGlua2lkPTg2ODkyMg&ntb=1`
@@ -83,4 +77,4 @@ plugins (所有的插件目录)
 
 ## ⭐ Star History
 
-[![Stargazers over time](https://starchart.cc/PRO-2684/LiteLoaderQQNT-pURLfy.svg?variant=adaptive)](https://starchart.cc/PRO-2684/LiteLoaderQQNT-pURLfy)
+[![Stargazers over time](https://starchart.cc/PRO-2684/QQNT-pURLfy.svg?variant=adaptive)](https://starchart.cc/PRO-2684/QQNT-pURLfy)

@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { BrowserWindow, ipcMain, shell, app } from "electron";
-import { Purlfy } from "./purlfy";
+import Purlfy from "./purlfy.js";
 let settingWindow = null;
 let tempDisable = false;
 
@@ -138,7 +138,7 @@ function notifyStatisticsChange(statistics) {
     if (settingWindow) {
         log("Notify statistics change");
         settingWindow.webContents.send(
-            "LiteLoader.purlfy.statisticsChange",
+            "PRO-2684.purlfy.statisticsChange",
             statistics,
         );
     }
@@ -150,7 +150,7 @@ function notifyLambdaEnabledChange() {
     if (settingWindow) {
         log("Notify lambda enabled change:", purifier.lambdaEnabled);
         settingWindow.webContents.send(
-            "LiteLoader.purlfy.lambdaEnabledChange",
+            "PRO-2684.purlfy.lambdaEnabledChange",
             purifier.lambdaEnabled,
         );
     }
@@ -162,7 +162,7 @@ function notifyTempDisableChange() {
     if (settingWindow) {
         log("Notify temp disable change:", tempDisable);
         settingWindow.webContents.send(
-            "LiteLoader.purlfy.tempDisableChange",
+            "PRO-2684.purlfy.tempDisableChange",
             tempDisable,
         );
     }
@@ -187,24 +187,24 @@ async function purifyText(text) {
 loadRules();
 
 // IPC handlers
-ipcMain.on("LiteLoader.purlfy.reloadRules", loadRules);
-ipcMain.on("LiteLoader.purlfy.setLambdaEnabled", (event, value) => {
+ipcMain.on("PRO-2684.purlfy.reloadRules", loadRules);
+ipcMain.on("PRO-2684.purlfy.setLambdaEnabled", (event, value) => {
     log("setLambdaEnabled:", value);
     purifier.lambdaEnabled = value;
     notifyLambdaEnabledChange();
 });
-ipcMain.on("LiteLoader.purlfy.setTempDisable", (event, value) => {
+ipcMain.on("PRO-2684.purlfy.setTempDisable", (event, value) => {
     log("setTempDisable:", value);
     tempDisable = value;
     notifyTempDisableChange();
 });
-ipcMain.handle("LiteLoader.purlfy.toggle", (event, name, enabled) => {
+ipcMain.handle("PRO-2684.purlfy.toggle", (event, name, enabled) => {
     log("toggle:", name, enabled);
     config.rules[name] = enabled;
     return enabled;
 });
-ipcMain.handle("LiteLoader.purlfy.updateRules", updateRules);
-ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
+ipcMain.handle("PRO-2684.purlfy.updateRules", updateRules);
+ipcMain.handle("PRO-2684.purlfy.getInfo", (event) => {
     settingWindow = BrowserWindow.fromWebContents(event.sender);
     log(`Setting window created: #${settingWindow.id}`);
     settingWindow.on("closed", () => {
@@ -219,8 +219,11 @@ ipcMain.handle("LiteLoader.purlfy.getInfo", (event) => {
         rules: config.rules,
     };
 });
-ipcMain.handle("LiteLoader.purlfy.purify", async (event, url) => {
+ipcMain.handle("PRO-2684.purlfy.purify", async (event, url) => {
     return await purifier.purify(url);
+});
+ipcMain.on("PRO-2684.purlfy.openUrl", (_event, url) => {
+    shell.openExternal(url);
 });
 
 // Hooks
@@ -251,7 +254,7 @@ function onBrowserWindowCreated(window) {
             const data = args[3]?.[1];
             if (
                 tempDisable ||
-                channel.startsWith("LiteLoader.") ||
+                channel.startsWith("PRO-2684.") ||
                 !data ||
                 !(data instanceof Array)
             ) {

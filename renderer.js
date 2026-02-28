@@ -1,7 +1,6 @@
 // Normalized plugin path
-const pluginPath = qwqnt.framework.plugins[slug].meta.path
-    .replace(":\\", "://")
-    .replaceAll("\\", "/");
+const meta = qwqnt.framework.plugins.purlfy.meta;
+const pluginPath = meta.path.replace(":\\", "://").replaceAll("\\", "/");
 
 async function onSettingWindowCreated(view) {
     const $ = view.querySelector.bind(view);
@@ -171,8 +170,7 @@ async function onSettingWindowCreated(view) {
         }, 500);
     });
     // About - Version
-    $("#purlfy-version").textContent =
-        LiteLoader.plugins.purlfy.manifest.version;
+    $("#purlfy-version").textContent = meta.packageJson.version;
     // About - Backgroud image
     ["version", "author", "issues"].forEach((id) => {
         $(`#purlfy-about-${id}`).style.backgroundImage =
@@ -183,7 +181,7 @@ async function onSettingWindowCreated(view) {
         e.preventDefault();
         const url = e.currentTarget.getAttribute("data-purlfy-url");
         if (url) {
-            LiteLoader.api.openExternal(url);
+            purlfy.openUrl(url);
         }
     }
     view.querySelectorAll(".purlfy-link").forEach((link) => {
